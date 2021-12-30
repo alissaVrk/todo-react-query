@@ -1,25 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState } from 'react';
+import { QueryClientProvider } from 'react-query';
+import {ReactQueryDevtools} from "react-query/devtools";
 import './App.css';
+import { createQueryClient } from './core/queryClient';
+import Todos from './todo/components/Todos';
+import { CurrentUser } from './user/components/CurrentUser';
+
+const queryClient = createQueryClient()
 
 function App() {
+  const [show, setShow] = useState(true);
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient} >
+      <CurrentUser />
+      <button onClick={() => setShow(!show)}>toggle</button>
+      {show && <Todos filter={{isDone: false}}/>}
+
+      <ReactQueryDevtools initialIsOpen={true} />
+    </QueryClientProvider>
   );
 }
 
