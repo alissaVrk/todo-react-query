@@ -1,6 +1,6 @@
-import React from "react";
-import { useMutation, useQuery } from "react-query";
-import { addTodoMutationConfig } from "../data/todosActions";
+import React, { useState } from "react";
+import { useQuery } from "react-query";
+import { addTodo } from "../data/todosActions";
 import { getFilteredMyTodoConfig } from "../data/todosFilter";
 import { TodosFilter, MyTodo } from "../data/todoTypes";
 import TodoItem from "./TodoItem";
@@ -12,21 +12,21 @@ function Todos({filter}: {filter?: TodosFilter}) {
         notifyOnChangeProps: "tracked"
     });
 
-    const { mutate: addTodoMutate, isLoading: isLoadingAddTodo } = useMutation(addTodoMutationConfig);
-
+    const [isAdding, setIsAdding] = useState(false);
     const titleRef = React.createRef<HTMLInputElement>();
     const descRef = React.createRef<HTMLTextAreaElement>()
 
-    function addTodo() {
+    function addNewTodo() {
         const todo: Omit<MyTodo, "id"> = {
             title: titleRef.current?.value || "",
             description: descRef.current?.value || "",
             isDone: false
         }
-        addTodoMutate(todo);
+        setIsAdding(true);
+        addTodo(todo).then(() => setIsAdding(false));
     }
 
-    console.log("render list", isLoadingAddTodo, data?.length);
+    console.log("render list", isAdding, data?.length);
     return (
         <div style={{textAlign: "start"}}>
             <ul>
@@ -36,14 +36,14 @@ function Todos({filter}: {filter?: TodosFilter}) {
                 </li>
                 ))}
             </ul>
-            {isLoadingAddTodo ? <h6>Loading....</h6> : (
+            {isAdding ? <h6>Loading....</h6> : (
                 <div>
                 <h5>Add Todo</h5>
                 <label htmlFor="title">title: </label>
                 <input type="text" name="title" ref={titleRef}/>
                 <label htmlFor="desc">description: </label>
                 <textarea name="desc" ref={descRef} />
-                <input type="button" value="Add" onClick={addTodo}/>
+                <input type="button" value="Add" onClick={addNewTodo}/>
             </div>
             )}
         </div>

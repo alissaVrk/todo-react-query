@@ -39,6 +39,9 @@ export async function addTodo(todo: Omit<TodoDB, "id"| "userId">) {
 
 export async function updateTodo(todo: Partial<TodoDB> & {id: string}) {
     const toUpdate = todos.find(t => t.id === todo.id)
+    if (!toUpdate) {
+        return Promise.reject("did not find todo");
+    }
     Object.assign(toUpdate, cloneDeep(todo));
     return Promise.resolve(toUpdate);
 }
