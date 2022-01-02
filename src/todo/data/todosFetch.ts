@@ -1,8 +1,8 @@
-import { QueryKey } from "react-query";
-import { getQueryClient } from "src/core/queryClient";
+import { QueryFunctionContext, QueryKey } from "react-query";
+import { getQueryClient, registerQueryDependency } from "src/core/queryClient";
 import { TodoDB, TodoDescriptionDB } from "src/server/someDB";
 import * as serverTodos from "src/server/todos";
-import { getUserId } from "src/user/logic/userQueries";
+import { getCurrentUserConfig, getUserId } from "src/user/logic/userQueries";
 import { Todo, MyTodo } from "./todoTypes";
 
 const MY_TODOS = ["my", "todos"];
@@ -37,8 +37,11 @@ export function getMyTodosSync() {
   return client.getQueryData<ReturnInPromise<typeof myTodosOptions.queryFn>>(myTodosOptions.queryKey);
 }
 
-async function fetchMyTodos() {
+async function fetchMyTodos({queryKey}: QueryFunctionContext) {
   const userId = getUserId();
+  //@ts-ignore
+  registerQueryDependency({...getCurrentUserConfig(), select: user => user?.id}, queryKey)
+
   if (!userId) {
     return Promise.resolve([]);
   }

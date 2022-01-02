@@ -1,9 +1,10 @@
 import { useRef } from "react";
+import { useQuery } from "react-query";
 import { loginUser } from "../logic/userActions";
-import { useCurrentUser } from "../logic/userQueries";
+import { getCurrentUserConfig } from "../logic/userQueries";
 
 export function CurrentUser() {
-  const { data } = useCurrentUser();
+  const { data } = useQuery(getCurrentUserConfig());
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   function login() {

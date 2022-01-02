@@ -6,5 +6,6 @@ export async function loginUser(userId: string) {
   const user = await login(userId);
   const client = getQueryClient();
   client.setQueryData(CURRENT_USER, user);
-  client.refetchQueries(["my"]);
+  //though in this specific case using query keys is probably better. but for the example
+  // client.refetchQueries(["my"]);
 }
