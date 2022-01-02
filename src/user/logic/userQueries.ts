@@ -23,6 +23,5 @@ export function useCurrentUser(){
 export function getUserId() {
   const client = getQueryClient();
   const user = client.getQueryData<UserDB>(CURRENT_USER);
-  console.log("RRRRR", user);
   return user?.id;
 }

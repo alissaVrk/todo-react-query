@@ -26,9 +26,13 @@ export async function getTodosDescs(descIds: Array<string>): Promise<Array<TodoD
     return Promise.resolve(cloneDeep(descriptions));
 }
 
-export async function addTodo(todo: Omit<TodoDB, "id">) {
+export async function addTodo(todo: Omit<TodoDB, "id"| "userId">) {
+    const userId = (await getCurrentUser())?.id
+    if (!userId) {
+        throw new Error("403 you need a user");
+    }
     const id = uniqueId("todo_");
-    const todoWithId = {...todo, id};
+    const todoWithId = {...todo, id, userId};
     todos.push(todoWithId);
     return Promise.resolve(todoWithId)
 }

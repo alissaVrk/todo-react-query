@@ -6,14 +6,13 @@ import { TodosFilter, MyTodo } from "../data/todoTypes";
 import TodoItem from "./TodoItem";
 
 function Todos({filter}: {filter?: TodosFilter}) {
-    const todosQueryConfig = filter ? getFilteredMyTodoConfig(filter) : getMyTodosConfig();
-    const {data} = useQuery({...todosQueryConfig, select: data => data });
+    const todosQueryConfig = getFilteredMyTodoConfig(filter || {isDone: false});
+    const {data} = useQuery({
+        ...todosQueryConfig,
+        notifyOnChangeProps: "tracked"
+    });
     const titleRef = React.createRef<HTMLInputElement>();
     const descRef = React.createRef<HTMLTextAreaElement>()
-
-    // useEffect(() => {
-    //     dispatch({name: "init", userId});
-    // }, [dispatch]);
 
     function addTodo() {
         const todo: Omit<MyTodo, "id"> = {

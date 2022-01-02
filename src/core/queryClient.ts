@@ -1,9 +1,9 @@
 import { values } from "lodash";
-import { hashQueryKey, QueryClient, QueryKey, QueryObserver, QueryOptions } from "react-query";
+import { hashQueryKey, QueryClient, QueryKey, QueryObserver, UseQueryOptions } from "react-query";
 
 let queryClient: QueryClient;
 
-const queryObservers: {[key: string]: {[key: string]: {observer: QueryObserver, unsubscribe: () => void}}} = {};
+const queryObservers: {[key: string]: {[key: string]: {observer: QueryObserver<any>, unsubscribe: () => void}}} = {};
 
 export function createQueryClient() {
   queryClient = new QueryClient({
@@ -33,7 +33,7 @@ export function getQueryClient() {
   return queryClient;
 }
 
-export function registerQueryDependency(from: QueryOptions, to: QueryKey) {
+export function registerQueryDependency<T>(from: UseQueryOptions<T>, to: QueryKey) {
   if (!from.queryKey) {
     throw new Error();
   }
@@ -42,8 +42,9 @@ export function registerQueryDependency(from: QueryOptions, to: QueryKey) {
 
   const observer = toEntry[hashQueryKey(from.queryKey)];
   if (!observer) {
-    const newObserver = new QueryObserver(queryClient, from);
+    const newObserver = new QueryObserver<T>(queryClient, from);
     const unsubscribe = newObserver.subscribe(() => {
+      console.log("INVALIDATE");
       queryClient.invalidateQueries(to);
     });
     toEntry[hashQueryKey(from.queryKey)] = {
