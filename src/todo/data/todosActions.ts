@@ -11,7 +11,7 @@ export async function addTodo(todoItem: Omit<MyTodo, "id">) {
     getQueryClient().invalidateQueries(getMyTodosConfig().queryKey);
 }
 
-export async function markAsDone({id, isDone}: {id: string, isDone: boolean}) {
+export async function markAsDoneOptimistic({id, isDone}: {id: string, isDone: boolean}) {
     const {prevTodos} = updateTodo({id, isDone});
     try {
         const updatedTodo = await server.updateTodo({id, isDone});

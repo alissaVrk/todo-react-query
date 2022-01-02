@@ -1,4 +1,4 @@
-import { markAsDone } from "../data/todosActions";
+import { markAsDoneOptimistic } from "../data/todosActions";
 import { MyTodo } from "../data/todoTypes";
 
 function TodoItem({todoItem}: {todoItem: MyTodo}){
@@ -9,7 +9,7 @@ function TodoItem({todoItem}: {todoItem: MyTodo}){
             <h5>{todoItem.title}</h5>
             <input type="checkbox" 
                 checked={todoItem.isDone} 
-                onChange={(event) => markAsDone({id: todoItem.id, isDone: event.target.checked})}/>
+                onChange={(event) => markAsDoneOptimistic({id: todoItem.id, isDone: event.target.checked})}/>
             <span>{todoItem.description}</span>
         </div>
     )
