@@ -1,6 +1,6 @@
 import React from "react";
-import { useQuery } from "react-query";
-import { getMyTodosConfig } from "../data/todosFetch";
+import { useMutation, useQuery } from "react-query";
+import { addTodoMutationConfig } from "../data/todosActions";
 import { getFilteredMyTodoConfig } from "../data/todosFilter";
 import { TodosFilter, MyTodo } from "../data/todoTypes";
 import TodoItem from "./TodoItem";
@@ -11,6 +11,9 @@ function Todos({filter}: {filter?: TodosFilter}) {
         ...todosQueryConfig,
         notifyOnChangeProps: "tracked"
     });
+
+    const { mutate: addTodoMutate, isLoading: isLoadingAddTodo } = useMutation(addTodoMutationConfig);
+
     const titleRef = React.createRef<HTMLInputElement>();
     const descRef = React.createRef<HTMLTextAreaElement>()
 
@@ -20,12 +23,11 @@ function Todos({filter}: {filter?: TodosFilter}) {
             description: descRef.current?.value || "",
             isDone: false
         }
-        // dispatch({name: "add", todo});
+        addTodoMutate(todo);
     }
 
-    console.log("render list");
+    console.log("render list", isLoadingAddTodo, data?.length);
     return (
-
         <div style={{textAlign: "start"}}>
             <ul>
                 {data?.map(todo => (
@@ -34,7 +36,8 @@ function Todos({filter}: {filter?: TodosFilter}) {
                 </li>
                 ))}
             </ul>
-            <div>
+            {isLoadingAddTodo ? <h6>Loading....</h6> : (
+                <div>
                 <h5>Add Todo</h5>
                 <label htmlFor="title">title: </label>
                 <input type="text" name="title" ref={titleRef}/>
@@ -42,6 +45,7 @@ function Todos({filter}: {filter?: TodosFilter}) {
                 <textarea name="desc" ref={descRef} />
                 <input type="button" value="Add" onClick={addTodo}/>
             </div>
+            )}
         </div>
     )
 }

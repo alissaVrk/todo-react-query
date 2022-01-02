@@ -1,5 +1,5 @@
 import { values } from "lodash";
-import { hashQueryKey, QueryClient, QueryKey, QueryObserver, UseQueryOptions } from "react-query";
+import { hashQueryKey, QueryClient, QueryKey, QueryObserver, UseQueryOptions, QueryOptions } from "react-query";
 
 let queryClient: QueryClient;
 
@@ -31,6 +31,17 @@ export function createQueryClient() {
 
 export function getQueryClient() {
   return queryClient;
+}
+
+type InPromise<T> = T extends Promise<infer K> ? K : never;
+type ReturnInPromise<T extends (...args: any) => any> = InPromise<ReturnType<T>> 
+
+export function getQueryData<T>(queryOptions: QueryOptions<T>) {
+  if (!queryOptions.queryFn || !queryOptions.queryKey) {
+    throw new Error("you need query stuff");
+  }
+  const client = getQueryClient();
+  return client.getQueryData<ReturnInPromise<typeof queryOptions.queryFn>>(queryOptions.queryKey);
 }
 
 export function registerQueryDependency<T>(from: UseQueryOptions<T>, to: QueryKey) {
