@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "lib", //probably should remove when this isn't a lib anymore
     "target": "es5",
     "lib": [
       "dom",
@@ -17,11 +18,24 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false, //probably should be true when this isn't a lib anymore
     "jsx": "react-jsx",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
   },
   "include": [
     "src"
-  ]
+  ],
+  "exclude": [
+    "node_modules", 
+    "lib",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.stories.tsx",
+    "./src/setupTests.ts"
+
+  ],
+  "files": ["./src/lib.ts"]
 }
