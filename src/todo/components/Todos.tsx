@@ -1,16 +1,16 @@
-import { partial } from "lodash";
+import { isUndefined, partial } from "lodash";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { addTodo } from "../data/todosActions";
 import { getMyTodosConfig } from "../data/todosFetch";
 import { filterTodos } from "../data/todosFilter";
-import { TodosFilter, MyTodo } from "../data/todoTypes";
+import { MyTodo } from "../data/todoTypes";
 import TodoItem from "./TodoItem";
 
-function Todos({filter}: {filter?: TodosFilter}) {
+function Todos({filter}: {filter?: boolean}) {
     const {data} = useQuery({
         ...getMyTodosConfig(),
-        select: filter ? partial(filterTodos, filter) : undefined,
+        select: !isUndefined(filter) ? partial(filterTodos, {isDone: filter}) : undefined,
         notifyOnChangeProps: "tracked"
     });
 

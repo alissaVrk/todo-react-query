@@ -6,19 +6,20 @@ import { createQueryClient } from './core/queryClient';
 import Todos from './todo/components/Todos';
 import { CurrentUser } from './user/components/CurrentUser';
 
-const queryClient = createQueryClient()
+// const queryClient = createQueryClient()
 
 function App() {
   const [show, setShow] = useState(true);
   
   return (
-    <QueryClientProvider client={queryClient} >
-      <CurrentUser />
-      <button onClick={() => setShow(!show)}>toggle</button>
-      {show && <Todos filter={{isDone: false}}/>}
+<div/>
+    // <QueryClientProvider client={queryClient} >
+    //   <CurrentUser />
+    //   <button onClick={() => setShow(!show)}>toggle</button>
+    //   {show && <Todos filter={{isDone: false}}/>}
 
-      <ReactQueryDevtools initialIsOpen={true} />
-    </QueryClientProvider>
+    //   <ReactQueryDevtools initialIsOpen={true} />
+    // </QueryClientProvider>
   );
 }
 
