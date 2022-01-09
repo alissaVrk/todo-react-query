@@ -2,10 +2,13 @@ import { initProviders, wrapComponentWithProviders } from "./libApp/providers";
 import Todos from "./todo/components/Todos";
 import { react2angular } from 'react2angular'
 import {CurrentUser} from "./user/components/CurrentUser"
+import { CounterComp } from "./counter/CounterComp";
 
-initProviders();
-export const Todos_R = wrapComponentWithProviders(Todos);
-export const User_R = wrapComponentWithProviders(CurrentUser);
+const Todos_R = wrapComponentWithProviders(Todos);
+const User_R = wrapComponentWithProviders(CurrentUser);
+const Counter_r = wrapComponentWithProviders(CounterComp);
+
+export const initLib = () => initProviders(document.getElementById('root'));
 
 
 //poll for this shit..?
@@ -13,5 +16,6 @@ export const User_R = wrapComponentWithProviders(CurrentUser);
 angular
   .module('myApp.reactComps', [])
   .component('todoComp', react2angular(Todos_R, ['filter']))
-  .component('userComp', react2angular(User_R, []));
+  .component('userComp', react2angular(User_R, []))
+  .component('counterComp', react2angular(Counter_r, []));
 
