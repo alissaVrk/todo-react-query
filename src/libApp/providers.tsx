@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { createQueryClient } from "src/core/queryClient";
-import { ChildCounterProvider, ContextListener } from "src/counter/contextListener";
-import { CounterProvider } from "src/counter/counterContext";
+import { ChildCounterProvider, ContextListener } from "src/libApp/contextListener";
+import { CounterContext, CounterProvider } from "src/counter/counterContext";
 
 let queryClient: QueryClient;
 
@@ -12,7 +12,7 @@ type CompType = (...args: any) => JSX.Element | null;
 export function wrapComponentWithProviders<T extends CompType>(Comp: T) {
     return (props: React.ComponentProps<T>) => (
         <QueryClientProvider client={queryClient}>
-            <ChildCounterProvider>
+            <ChildCounterProvider context={CounterContext} path={["counter"]}>
                 <Comp {...props} />
             </ChildCounterProvider>
         </QueryClientProvider>
@@ -29,7 +29,7 @@ export function initProviders(parentNode: HTMLElement | null) {
         return (
             <QueryClientProvider client={queryClient}>
                 <CounterProvider>
-                    <ContextListener />
+                    <ContextListener context={CounterContext} path={["counter"]} />
                 </CounterProvider>
             </QueryClientProvider>
         )

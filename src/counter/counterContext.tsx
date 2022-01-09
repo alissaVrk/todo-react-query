@@ -20,11 +20,11 @@ export function CounterProvider({children}: React.PropsWithChildren<{}>) {
         increment
     }
 
-    const ppp = <CounterContext.Provider value={value}>
-        {children}
+    return (
+        <CounterContext.Provider value={value}>
+            {children}
         </CounterContext.Provider>
-
-    return ppp
+    )
 }
 
 export const useCounterContext = () => {
