@@ -16,7 +16,7 @@ export function createQueryClient() {
       return;
     }
     const observers = queryObservers[event.query.queryHash];
-    if (event.type !== "observerRemoved" || event.query.isActive() || !observers) {
+    if (event.type !== "queryRemoved" || event.query.isActive() || !observers) {
       return;
     }
     values(observers).forEach(observerInfo => {
