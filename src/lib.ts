@@ -8,8 +8,8 @@ const Todos_R = wrapComponentWithProviders(Todos);
 const User_R = wrapComponentWithProviders(CurrentUser);
 const Counter_r = wrapComponentWithProviders(CounterComp);
 
-export const initLib = () => initProviders(document.getElementById('root'));
-
+const initLib = () => initProviders(document.getElementById('root'));
+initLib();
 
 //poll for this shit..?
 //@ts-ignore
