@@ -4,11 +4,13 @@ import { terser } from 'rollup-plugin-terser';
 import commonjs from '@rollup/plugin-commonjs';
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import injectProcessEnv from 'rollup-plugin-inject-process-env';
+import postcss from "rollup-plugin-postcss";
 
 
 const packageJson = require('./package.json');
 
-export default {
+export default [
+    {
     input: 'src/lib.ts',
     output: [
         {
@@ -32,4 +34,21 @@ export default {
         }),
         terser()
     ]
-}
+}, 
+{
+    input: "src/App.css",
+    output: {
+        file: "lib/App.css"
+    },
+    plugins: [
+        postcss({
+            config: {
+              path: "./postcss.config.js",
+            },
+            extensions: [".css"],
+            minimize: false,
+            extract: true,
+            sourceMap: true
+        })
+    ]
+}]

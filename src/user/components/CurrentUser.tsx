@@ -20,7 +20,7 @@ export function CurrentUser() {
     <>
       {data ? <h6>Hello {data.name}</h6> : <h6>need to login</h6>}
       <div>
-        <input type="text" ref={inputRef} />
+        <input type="text" ref={inputRef} className="border-2"/>
         <button onClick={login} >login</button>
       </div>
     </>
