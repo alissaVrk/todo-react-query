@@ -30,7 +30,8 @@
     "build:app": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "watch:lib": "rollup -c -w"
   },
   "eslintConfig": {
     "extends": [

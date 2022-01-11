@@ -5,7 +5,7 @@ export function CounterComp() {
 
     return (
         <div>
-            <p>this is the count {count}</p>
+            <p>this is the count {count} OOOOOO</p>
             <button onClick={increment}>increment</button>
         </div>
     );
