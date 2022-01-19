@@ -1,3 +1,4 @@
+import Switch from "src/components/Switch";
 import { markAsDoneOptimistic } from "../data/todosActions";
 import { MyTodo } from "../data/todoTypes";
 
@@ -7,9 +8,10 @@ function TodoItem({todoItem}: {todoItem: MyTodo}){
     return (
         <div key={todoItem.id}>
             <h5>{todoItem.title}</h5>
-            <input type="checkbox" 
+            <Switch 
                 checked={todoItem.isDone} 
-                onChange={(event) => markAsDoneOptimistic({id: todoItem.id, isDone: event.target.checked})}/>
+                onChange={(isChecked => markAsDoneOptimistic({id: todoItem.id, isDone: isChecked}))}
+            />
             <span>{todoItem.description}</span>
         </div>
     )

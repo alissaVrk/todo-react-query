@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useQuery } from "react-query";
+import Button from "src/components/Button";
 import { loginUser } from "../logic/userActions";
 import { getCurrentUserConfig } from "../logic/userQueries";
 
@@ -21,7 +22,7 @@ export function CurrentUser() {
       {data ? <h6>Hello {data.name}</h6> : <h6>need to login</h6>}
       <div>
         <input type="text" ref={inputRef} className="border-2"/>
-        <button onClick={login} >login</button>
+        <Button onClick={login} >login</Button>
       </div>
     </>
   )

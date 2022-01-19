@@ -15,7 +15,7 @@ function App() {
     <QueryClientProvider client={queryClient} >
       <CurrentUser />
       <button onClick={() => setShow(!show)}>toggle</button>
-      {show && <Todos filter={false}/>}
+      {show && <Todos/>}
 
       <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>

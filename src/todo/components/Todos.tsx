@@ -6,6 +6,8 @@ import { getMyTodosConfig } from "../data/todosFetch";
 import { filterTodos } from "../data/todosFilter";
 import { MyTodo } from "../data/todoTypes";
 import TodoItem from "./TodoItem";
+import {ReactComponent as Plus} from "../../icons/plus.svg";
+import ButtonWithIcon from "src/components/ButtonWithIcon";
 
 function Todos({filter}: {filter?: boolean}) {
     const {data} = useQuery({
@@ -45,7 +47,7 @@ function Todos({filter}: {filter?: boolean}) {
                 <input type="text" name="title" ref={titleRef}/>
                 <label htmlFor="desc">description: </label>
                 <textarea name="desc" ref={descRef} />
-                <input type="button" value="Add" onClick={addNewTodo}/>
+                <ButtonWithIcon variant="text" SvgComp={Plus} onClick={addNewTodo}>Add</ButtonWithIcon>
             </div>
             )}
         </div>
