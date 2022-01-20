@@ -31,7 +31,8 @@ export default function Switch(props: SwitchProps) {
             "after:r-border-none": checked,
             "after:r-border": !checked,
             "after:r-border-gray-600": !checked,
-        }
+        },
+        "after:r-transition-transform", "after:r-duration-200"
     );
     
 
