@@ -5,35 +5,35 @@ export type ButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonEleme
 }
 
 export default function Button(props: ButtonProps) {
-    const commonStyles = `h-[31px] inline-flex items-center`;
+    const commonStyles = `r-h-[31px] r-inline-flex r-items-center`;
     if (props.variant === "text") {
         return (
-            <div className={`${commonStyles} mb-[13px]`}>
-                <button {...props} className={`px-3 hover:text-blue-500`} />
+            <div className={`${commonStyles} r-mb-[13px]`}>
+                <button {...props} className={`r-px-3 hover:r-text-blue-500`} />
             </div>
         )
     } 
     if (props.variant === "textNoHover") {
         return (
-            <div className={`${commonStyles} mb-[13px]`}>
-                <button {...props} className={`px-3 text-blue-500`} />
+            <div className={`${commonStyles} r-mb-[13px]`}>
+                <button {...props} className={`r-px-3 r-text-blue-500`} />
             </div>
         );
     }
     return (
         <button {...props} className={`${commonStyles}
-                align-top 
-                px-12 rounded
-                bg-neutral-100
-                transition-[color] ease-in-out duration-300
+        r-align-top 
+        r-px-12 r-rounded
+        r-bg-neutral-100
+        r-transition-[color] r-ease-in-out r-duration-300
 
-                 hover:bg-blue-100
-                hover:text-blue-500
+                 hover:r-bg-blue-100
+                hover:r-text-blue-500
 
-                active:bg-blue-100
-                active:text-blue-500
+                active:r-bg-blue-100
+                active:r-text-blue-500
                 
-                 disabled:text-neutral-200
-                  disabled:cursor-default`} />
+                 disabled:r-text-neutral-200
+                  disabled:r-cursor-default`} />
     )
 }

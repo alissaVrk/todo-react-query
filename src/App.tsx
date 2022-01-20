@@ -12,13 +12,15 @@ function App() {
   const [show, setShow] = useState(true);
   
   return (
-    <QueryClientProvider client={queryClient} >
-      <CurrentUser />
-      <button onClick={() => setShow(!show)}>toggle</button>
-      {show && <Todos/>}
+    <div className='rtw'>
+      <QueryClientProvider client={queryClient}>
+        <CurrentUser />
+        <button onClick={() => setShow(!show)}>toggle</button>
+        {show && <Todos/>}
 
-      <ReactQueryDevtools initialIsOpen={true} />
-    </QueryClientProvider>
+        <ReactQueryDevtools initialIsOpen={true} />
+      </QueryClientProvider>
+    </div>
   );
 }
 

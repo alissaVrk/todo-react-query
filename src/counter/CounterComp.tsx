@@ -1,3 +1,5 @@
+import Button from "src/components/Button";
+import Switch from "src/components/Switch";
 import { useCounterContext } from "./counterContext"
 
 export function CounterComp() {
@@ -5,8 +7,9 @@ export function CounterComp() {
 
     return (
         <div>
-            <p>this is the count {count} OOOOOO</p>
-            <button onClick={increment}>increment</button>
+            <p>this is the count {count}</p>
+            <Button onClick={increment}>increment</Button> <br/>
+            <span>and just for fun </span><Switch/>
         </div>
     );
 }

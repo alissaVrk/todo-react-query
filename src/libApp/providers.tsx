@@ -11,11 +11,13 @@ type CompType = (...args: any) => JSX.Element | null;
 
 export function wrapComponentWithProviders<T extends CompType>(Comp: T) {
     return (props: React.ComponentProps<T>) => (
+        <div className="rtw">
         <QueryClientProvider client={queryClient}>
             <ChildCounterProvider context={CounterContext} path={["counter"]}>
                 <Comp {...props} />
             </ChildCounterProvider>
         </QueryClientProvider>
+        </div>
     )
 }
 

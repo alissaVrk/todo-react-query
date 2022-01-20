@@ -9,7 +9,16 @@ const User_R = wrapComponentWithProviders(CurrentUser);
 const Counter_r = wrapComponentWithProviders(CounterComp);
 
 const initLib = () => initProviders(document.getElementById('root'));
-initLib();
+// initLib();
+
+declare global {
+  interface Window {
+    // add you custom properties and methods
+    initReactApp:() => void
+  }
+}
+
+window.initReactApp = initLib;
 
 //poll for this shit..?
 //@ts-ignore

@@ -2,6 +2,11 @@ module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
+  important: ".rtw",
+  prefix: "r-",
+  corePlugins: {
+    preflight: false
+  },
   theme: {
     fontFamily: {
       sans: ['proxima-soft', 'sans-serif']
@@ -56,9 +61,5 @@ module.exports = {
         '3xl': '1.5rem',
       }
     },
-  },
-
-  // corePlugins: {
-  //   preflight: true //TODO: need to kill for lib not our components
-  // }
+  }
 }

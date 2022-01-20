@@ -5,49 +5,44 @@ export type SwitchProps = Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputEl
     onChange?: (isChecked: boolean) => void
 }
 
-const height = 15;
-const width_px = "w-[23px]";
-
 export default function Switch(props: SwitchProps) {
     const [checked, setChecked] = useState(!!props.checked);
 
     const lineCss = classNames(
-        "before:absolute", "before:block", 
-        `before:${width_px}`, "before:h-3",
-        "before:top-6", "before:left-0", 
-        "before:rounded-sm",
+        "before:r-absolute", "before:r-block", 
+        `before:r-w-[23px]`, "before:r-h-3",
+        "before:r-top-6", "before:r-left-0", 
+        "before:r-rounded-sm",
         {
-            "before:bg-blue-500": checked,
-            "before:bg-gray-600": !checked
+            "before:r-bg-blue-500": checked,
+            "before:r-bg-gray-600": !checked
         }
     )
 
     const circleCss = classNames(
-        "after:absolute", "after:block",
-        `after:w-${height}`, `after:h-${height}`,
-        "after:top-1/2", "after:left-0",
-        "after:rounded-full",
+        "after:r-absolute", "after:r-block",
+        `after:r-w-15`, `after:r-h-15`,
+        "after:r-top-1/2", "after:r-left-0",
+        "after:r-rounded-full",
         {
-            "after:translate-x-9": checked,
-            "after:bg-blue-500": checked,
-            "after:bg-white": !checked,
-            "after:border-none": checked,
-            "after:border": !checked,
-            "after:border-gray-600": !checked,
+            "after:r-translate-x-9": checked,
+            "after:r-bg-blue-500": checked,
+            "after:r-bg-white": !checked,
+            "after:r-border-none": checked,
+            "after:r-border": !checked,
+            "after:r-border-gray-600": !checked,
         }
     );
     
 
     return(
-        <div className={classNames(
-            `${width_px}`, `h-${(height - 2).toString()}`,
-            "inline-block", "relative", "select-none")} >
+        <div className="r-w-[23px] r-h-13 r-inline-block r-relative r-select-none">
             
             <span 
-                className={`relative align-middle ${lineCss} ${circleCss}`}
+                className={`r-relative r-align-middle ${lineCss} ${circleCss}`}
             />
             <input {...props} type="checkbox" 
-                className={classNames("opacity-0", "absolute", "top-0", `${width_px}`, `h-${height}`)}
+                className="r-opacity-0 r-absolute r-top-0 r-w-[23px] r-h-15"
                 checked={checked} 
                 onChange={(e) => {
                     setChecked(e.target.checked);

@@ -5,6 +5,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import injectProcessEnv from 'rollup-plugin-inject-process-env';
 import postcss from "rollup-plugin-postcss";
+import svgr from '@svgr/rollup'
 
 
 const packageJson = require('./package.json');
@@ -27,6 +28,18 @@ export default [
     plugins: [
         peerDepsExternal(),
         resolve(),
+        svgr({template:(variables, { tpl }) => {
+            return tpl`
+                ${variables.imports};
+                ${variables.interfaces};
+                const ${variables.componentName} = (${variables.props}) => (
+                        ${variables.jsx}
+                );
+           
+            ${variables.exports};
+            export const ReactComponent = ${variables.componentName};
+          `
+          }}),
         commonjs(),
         typescript({ tsconfig: './tsconfig.json' }),
         injectProcessEnv({ 

@@ -1,17 +1,28 @@
+@import "css/tw-reset.css";
+@import "css/ng-reset.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-    body {
+    .rtw {
+        tab-size: 4;
+        -moz-tab-size: 4;
+        font-family: theme("fontFamily.sans");
         font-size: 14px;
-        font-weight: 500;
+        line-height: 1.5;
+        -webkit-text-size-adjust: 100%;
     }
-    svg {
+    .rtw svg {
         width: 1em;
         height: 1em;
         position: relative;
         flex-shrink: 0;
         display: inline-block;
+    }
+    .rtw button, .rtw label, .rtw select, .rtw summary, .rtw [type="button"], .rtw [type="submit"], .rtw [type="reset"] , .rtw [type="checkbox"], .rtw [type="radio"], .rtw [type="range"] {
+        @apply r-cursor-pointer;
+        @apply r-select-none;
     }
 }

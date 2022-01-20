@@ -8,7 +8,7 @@ export default function ButtonWithIcon({children, SvgComp, ...props}: ButtonWit
     return (
         <Button {...props}>
             <SvgComp className="mr-6"/>
-            <span className={props.variant === "default" ? " leading-[25px] mr-5" : ""}>
+            <span className={props.variant === "default" ? " r-leading-[25px] r-mr-5" : ""}>
                 {children}
             </span>
         </Button>
