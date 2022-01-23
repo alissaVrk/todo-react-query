@@ -3,6 +3,7 @@ import { QueryClientProvider } from 'react-query';
 import {ReactQueryDevtools} from "react-query/devtools";
 import './App.css';
 import { createQueryClient } from './core/queryClient';
+import { ItemsCount } from './dixie/ItemsCount';
 import Todos from './todo/components/Todos';
 import { CurrentUser } from './user/components/CurrentUser';
 
@@ -14,6 +15,7 @@ function App() {
   return (
     <div className='rtw'>
       <QueryClientProvider client={queryClient}>
+        <ItemsCount/>
         <CurrentUser />
         <button onClick={() => setShow(!show)}>toggle</button>
         {show && <Todos/>}
