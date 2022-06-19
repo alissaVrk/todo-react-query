@@ -21,4 +21,5 @@ jobs:
       - id: package-version
         run: node scripts/extract-version.js
       - run: git checkout -b release/${{ steps.package-version.outputs.version}}/${{inputs.name}}
+      - run: git push origin release/${{ steps.package-version.outputs.version}}/${{inputs.name}}
       
