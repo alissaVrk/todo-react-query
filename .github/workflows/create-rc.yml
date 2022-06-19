@@ -1,0 +1,24 @@
+name: create release
+
+on: 
+  workflow_dispatch: 
+    inputs: 
+      name: 
+        description: 'suffix for the branch names'
+        required: true
+        type: string
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - id: package-version
+        run: node scripts/extract-version.js
+      - run: git checkout -b release/${{ steps.package-version.outputs.version}}/${{inputs.name}}
+      
