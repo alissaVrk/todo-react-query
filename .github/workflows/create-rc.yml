@@ -28,5 +28,7 @@ jobs:
       - run: npm version patch
       - run: yarn build
       - run: npm publish
+         env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: git push origin release/${{ steps.package-version.outputs.version}}/${{inputs.name}} --tags
       - run: git checkout main
