@@ -17,6 +17,7 @@ jobs:
         with:
           node-version: '16'
           cache: 'yarn'
+          registry-url: 'https://registry.npmjs.org'
       - run: yarn install --frozen-lockfile
       - id: package-version
         run: node scripts/extract-version.js
