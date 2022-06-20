@@ -21,6 +21,10 @@ jobs:
       - id: package-version
         run: node scripts/extract-version.js
       - run: git checkout -b release/${{ steps.package-version.outputs.version}}/${{inputs.name}}
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
       - run: npm version patch
       - run: yarn build
       - run: npm publish
