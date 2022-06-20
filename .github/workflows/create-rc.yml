@@ -9,8 +9,10 @@ on:
         type: string
 
 jobs:
-  install:
+  react:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.package-version.outputs.version }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -26,10 +28,28 @@ jobs:
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-      - run: npm version patch
+      - run: npm version patch -m "bump version %s"
       - run: yarn build
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: git push origin release/${{ steps.package-version.outputs.version}}/${{inputs.name}} --tags
       - run: git checkout main
+      - run: npm version minor --git-tag-version=false -m "next release %s"
+      - run: git push origin main
+
+  ng:
+    runs-on: ubuntu-latest
+    needs: react
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: 'alissaVrk/craft-redux-toolkit'
+          ref: 'main'
+        - name: setup git config
+          run: |
+            git config user.name "GitHub Actions Bot"
+            git config user.email "<>"
+        - run: git checkout -b feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
+        - run: git push origin main
+
