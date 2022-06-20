@@ -21,5 +21,8 @@ jobs:
       - id: package-version
         run: node scripts/extract-version.js
       - run: git checkout -b release/${{ steps.package-version.outputs.version}}/${{inputs.name}}
-      - run: git push origin release/${{ steps.package-version.outputs.version}}/${{inputs.name}}
-      
+      - run: npm version patch
+      - run: yarn build
+      - run: npm publish
+      - run: git push origin release/${{ steps.package-version.outputs.version}}/${{inputs.name}} --tags
+      - run: git checkout main
