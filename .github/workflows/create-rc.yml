@@ -46,12 +46,12 @@ jobs:
         with:
           repository: 'alissaVrk/ng-with-react'
           ref: 'master'
-        - name: setup git config
-          run: |
-            git config user.name "GitHub Actions Bot"
-            git config user.email "<>"
-        - run: git checkout -b feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
-        - run: npm i alissa-todo-react-query@${{needs.react.outputs.version}}.x
-        - run: git commit -am "bump react version to ${{needs.react.outputs.version}}"
-        - run: git push origin feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+      - run: git checkout -b feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
+      - run: npm i alissa-todo-react-query@${{needs.react.outputs.version}}.x
+      - run: git commit -am "bump react version to ${{needs.react.outputs.version}}"
+      - run: git push origin feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
 
