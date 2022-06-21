@@ -1,0 +1,60 @@
+name: create hotfix
+
+on: 
+  workflow_dispatch: 
+    inputs: 
+      name: 
+        description: 'suffix for the branch names'
+        required: true
+        type: string
+      ng-version: 
+        description: 'ng hotfix version to be created'
+        required: true
+        type: string
+
+jobs:
+  react:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.package-version.outputs.full_version }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - id: package-version
+        run: node scripts/extract-version.js
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+      - id: branch-name
+        run: echo "::set-output name=name::hofix/${{ steps.package-version.outputs.full_version}}/${{inputs.ng-version}}/${{inputs.name}}"
+      - name: create hotfix
+        run: |
+          git checkout prod
+          git checkout -b ${{ steps.branch-name.outputs.name }}
+          git push origin ${{ steps.branch-name.outputs.name }}
+
+  ng:
+    runs-on: ubuntu-latest
+    needs: react
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: 'alissaVrk/ng-with-react'
+          ref: 'master'
+          token:  ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+      - name: create ng branch for hotfix
+        run: |
+          git checkout -b release/${{inputs.ng-version}}
+          npm i alissa-todo-react-query@${{needs.react.outputs.version}}
+          git commit -am "bump react version to ${{needs.react.outputs.version}}"
+          git push origin release/${{inputs.ng-version}}
+      - run: echo ng branch created release/${{inputs.ng-version}}
+      #here we could, in theory, deploy to jenkins the new feature branch
+
