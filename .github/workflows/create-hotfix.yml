@@ -7,6 +7,10 @@ on:
         description: 'suffix for the branch names'
         required: true
         type: string
+      ng-version: 
+        description: 'ng hotfix version to be created'
+        required: true
+        type: string
 
 jobs:
   react:
@@ -31,8 +35,8 @@ jobs:
           git config user.email "<>"
       - name: create hotfix
         run: |
-          git checkout -b release/${{ steps.package-version.outputs.full_version}}/${{inputs.name}}
-          git push origin release/${{ steps.package-version.outputs.full_version}}/${{inputs.name}}
+          git checkout -b hofix/${{ steps.package-version.outputs.full_version}}/${{inputs.name}}
+          git push origin hofix/${{ steps.package-version.outputs.full_version}}/${{inputs.name}}
 
   ng:
     runs-on: ubuntu-latest
@@ -49,10 +53,10 @@ jobs:
           git config user.email "<>"
       - name: create ng branch for hotfix
         run: |
-          git checkout -b feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
+          git checkout -b release/${{inputs.ng-version}}
           npm i alissa-todo-react-query@${{needs.react.outputs.version}}
           git commit -am "bump react version to ${{needs.react.outputs.version}}"
-          git push origin feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
-      - run: echo feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
+          git push origin release/${{inputs.ng-version}}
+      - run: echo ng branch created release/${{inputs.ng-version}}
       #here we could, in theory, deploy to jenkins the new feature branch
 

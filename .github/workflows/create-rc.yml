@@ -62,6 +62,6 @@ jobs:
           npm i alissa-todo-react-query@${{needs.react.outputs.version}}.x
           git commit -am "bump react version to ${{needs.react.outputs.version}}"
           git push origin feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
-      - run: echo feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
+      - run: echo ng branch created  feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
       #here we could, in theory, deploy to jenkins the new feature branch
 
