@@ -20,11 +20,11 @@ jobs:
           node-version: '16'
           cache: 'yarn'
           registry-url: 'https://registry.npmjs.org'
+      - run: yarn install --frozen-lockfile
       - id: extract-name-parts
         run: node scripts/extract-name-params.js
         env:
           branch: ${{ github.ref }} 
-      - run: yarn install --frozen-lockfile
       - name: setup git config
         run: |
           git config user.name "GitHub Actions Bot"
