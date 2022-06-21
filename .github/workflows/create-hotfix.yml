@@ -28,11 +28,13 @@ jobs:
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
+      - id: branch-name
+        run: echo "::set-output name=name::hofix/${{ steps.package-version.outputs.full_version}}/${{inputs.ng-version}}/${{inputs.name}}"
       - name: create hotfix
         run: |
           git checkout prod
-          git checkout -b hofix/${{ steps.package-version.outputs.full_version}}/${{inputs.name}}
-          git push origin hofix/${{ steps.package-version.outputs.full_version}}/${{inputs.name}}
+          git checkout -b ${{ steps.branch-name.outputs.name }}
+          git push origin ${{ steps.branch-name.outputs.name }}
 
   ng:
     runs-on: ubuntu-latest
