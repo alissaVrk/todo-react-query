@@ -35,8 +35,9 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: git push origin release/${{ steps.package-version.outputs.version}}/${{inputs.name}} --tags
       - run: git checkout main
-      - run: npm version minor --git-tag-version=false -m "next release %s"
-      - run: git push origin main
+      - run: npm version minor -m "next release %s"
+      #do not push the tag
+      - run: git push origin main 
 
   ng:
     runs-on: ubuntu-latest
