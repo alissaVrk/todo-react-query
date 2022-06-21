@@ -22,6 +22,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
       - id: package-version
         run: node scripts/extract-version.js
       - name: setup git config
