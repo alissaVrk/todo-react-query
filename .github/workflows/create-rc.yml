@@ -23,21 +23,25 @@ jobs:
       - run: yarn install --frozen-lockfile
       - id: package-version
         run: node scripts/extract-version.js
-      - run: git checkout -b release/${{ steps.package-version.outputs.version}}/${{inputs.name}}
       - name: setup git config
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-      - run: npm version patch -m "bump version %s"
-      - run: yarn build
+      - name: create release
+        run: |
+          git checkout -b release/${{ steps.package-version.outputs.version}}/${{inputs.name}}
+          npm version patch -m "bump version %s"
+          yarn build
+          git push origin release/${{ steps.package-version.outputs.version}}/${{inputs.name}} --tags
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: git push origin release/${{ steps.package-version.outputs.version}}/${{inputs.name}} --tags
-      - run: git checkout main
-      - run: npm version minor -m "next release %s"
-      #do not push the tag
-      - run: git push origin main 
+      - name: bump dev version
+        #do not push the tag because there is no publish
+        run: |
+          git checkout main
+          npm version minor -m "next release %s"
+          git push origin main 
 
   ng:
     runs-on: ubuntu-latest
@@ -52,14 +56,12 @@ jobs:
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-      - run: git checkout -b feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
-      - run: npm i alissa-todo-react-query@${{needs.react.outputs.version}}.x
-      - run: git commit -am "bump react version to ${{needs.react.outputs.version}}"
-      - run: git push origin feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
-      # - uses: ad-m/github-push-action@master
-      #   with:
-      #     github_token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
-      #     branch: feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
+      - name: create ng branch for release
+        run: |
+          git checkout -b feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
+          npm i alissa-todo-react-query@${{needs.react.outputs.version}}.x
+          git commit -am "bump react version to ${{needs.react.outputs.version}}"
+          git push origin feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
       - run: echo feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
       #here we could, in theory, deploy to jenkins the new feature branch
 
