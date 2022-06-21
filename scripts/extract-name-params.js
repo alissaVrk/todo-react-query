@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 
-const branch  = core.getInput('branch');
+const branch  = process.env.branch;
+
 console.log('BBBB', branch);
 
 const parts = branch.split('/');

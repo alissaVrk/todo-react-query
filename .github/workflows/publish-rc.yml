@@ -22,7 +22,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - id: extract-name-parts
         run: node scripts/extract-name-params.js
-        with:
+        env:
           branch: ${{ github.ref }} 
       - run: yarn install --frozen-lockfile
       - name: setup git config
