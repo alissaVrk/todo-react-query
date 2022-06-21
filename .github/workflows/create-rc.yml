@@ -60,12 +60,14 @@ jobs:
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
+      - id: branch-name
+        run: echo "::set-output name=name::feature/rt${{needs.react.outputs.version}}/${{inputs.name}}"
       - name: create ng branch for release
         run: |
-          git checkout -b feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
+          git checkout -b ${{ steps.branch-name.outputs.name }}
           npm i alissa-todo-react-query@${{needs.react.outputs.version}}.x
           git commit -am "bump react version to ${{needs.react.outputs.version}}"
-          git push origin feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
-      - run: echo ng branch created  feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
+          git push origin ${{ steps.branch-name.outputs.name }}
+      - run: echo ng branch created ${{ steps.branch-name.outputs.name }}
       #here we could, in theory, deploy to jenkins the new feature branch
 
