@@ -19,12 +19,12 @@ jobs:
       version: ${{ steps.package-version.outputs.full_version }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: 'prod'
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
           cache: 'yarn'
-          #TODO: create prod
-          ref: 'prod'
           registry-url: 'https://registry.npmjs.org'
       - run: yarn install --frozen-lockfile
       - id: package-version
