@@ -47,7 +47,7 @@ jobs:
         with:
           repository: 'alissaVrk/ng-with-react'
           ref: 'master'
-          persist-credentials: true
+          fetch-depth: 0
       - name: setup git config
         run: |
           git config user.name "GitHub Actions Bot"
