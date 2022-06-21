@@ -48,6 +48,7 @@ jobs:
           repository: 'alissaVrk/ng-with-react'
           ref: 'master'
           fetch-depth: 0
+          persist-credentials: false
       - name: setup git config
         run: |
           git config user.name "GitHub Actions Bot"
@@ -55,5 +56,10 @@ jobs:
       - run: git checkout -b feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
       - run: npm i alissa-todo-react-query@${{needs.react.outputs.version}}.x
       - run: git commit -am "bump react version to ${{needs.react.outputs.version}}"
-      - run: git push origin feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
+      - uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          branch: feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
+      - run: echo feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
+      #here we could, in theory, deploy to jenkins the new feature branch
 
