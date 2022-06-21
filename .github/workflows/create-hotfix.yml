@@ -35,6 +35,8 @@ jobs:
           git config user.email "<>"
       - name: create hotfix
         run: |
+          git status
+          echo ${{ steps.package-version.outputs.full_version}} ${{ steps.package-version.outputs.version}}
           git checkout -b hofix/${{ steps.package-version.outputs.full_version}}/${{inputs.name}}
           git push origin hofix/${{ steps.package-version.outputs.full_version}}/${{inputs.name}}
 
