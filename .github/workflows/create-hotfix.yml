@@ -24,13 +24,11 @@ jobs:
           node-version: '16'
           cache: 'yarn'
       - run: yarn install --frozen-lockfile
-      - id: package-version
-        run: node scripts/extract-version.js
       - name: setup git config
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-      - run: git checkout prod 
+      - run: git checkout prod
       - id: package-version
         run: node scripts/extract-version.js
       - id: branch-name
