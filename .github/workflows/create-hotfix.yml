@@ -34,7 +34,7 @@ jobs:
       - id: package-version
         run: node scripts/extract-version.js
       - id: branch-name
-        run: echo "::set-output name=name::hofix/${{ steps.package-version.outputs.full_version}}/${{inputs.ng-version}}/${{inputs.name}}"
+        run: echo "::set-output name=name::hotfix/${{ steps.package-version.outputs.full_version}}/${{inputs.ng-version}}/${{inputs.name}}"
       - name: create hotfix
         run: |
           git checkout -b ${{ steps.branch-name.outputs.name }}
