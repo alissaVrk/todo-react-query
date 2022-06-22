@@ -41,15 +41,17 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       # TODO: this should work with a PR - so build will run
-      - run: |
-        git checkout main
-        git pull origin main --ff
+      - name: checkout main
+        run: |
+          git checkout main
+          git pull origin main --ff
       - id: dev-version
         run: node scripts/extract-version.js
-      - run: |
-        git merge ${{ github.ref }} --ff
-        npm version ${{ steps.dev-version.outputs.full_version }}
-        git push origin main
+      - name: merge to main
+        run: |
+          git merge ${{ github.ref }} --ff
+          npm version ${{ steps.dev-version.outputs.full_version }}
+          git push origin main
 
   ng:
     if: github.event.pull_request.merged == true
