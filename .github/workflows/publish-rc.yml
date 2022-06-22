@@ -43,6 +43,7 @@ jobs:
       # TODO: this should work with a PR - so build will run
       - name: checkout main
         run: |
+          git fetch origin main
           git checkout main
           git pull origin main --ff
       - id: dev-version
