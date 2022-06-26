@@ -18,6 +18,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
@@ -43,7 +44,7 @@ jobs:
       - name: merge to main
         run: |
           git switch -C merge/${{steps.extract-name-parts.outputs.version}}
-          git pull origin main --ff -X theirs --allow-unrelated-histories
+          git pull origin main --ff -X theirs
           git push origin merge/${{steps.extract-name-parts.outputs.version}}
       # TODO: this should work with a PR - so build will run
 
