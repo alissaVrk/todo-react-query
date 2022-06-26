@@ -43,7 +43,7 @@ jobs:
       - name: merge to main
         run: |
           git switch -C merge/${{steps.extract-name-parts.outputs.version}}
-          git pull origin main --ff -X theirs 
+          git pull origin main --ff -X theirs --allow-unrelated-histories
           git push origin merge/${{steps.extract-name-parts.outputs.version}}
       # TODO: this should work with a PR - so build will run
 
