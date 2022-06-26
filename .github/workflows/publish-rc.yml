@@ -46,6 +46,11 @@ jobs:
           git switch -C merge/${{steps.extract-name-parts.outputs.version}}
           git pull origin main --ff -X theirs
           git push origin merge/${{steps.extract-name-parts.outputs.version}}
+      - name: pr
+        run: |
+          gh api \
+            -H "Accept: application/vnd.github.v3+json" \
+            /repos/alissaVrk/todo-react-query/pulls?base:main
       # TODO: this should work with a PR - so build will run
 
   ng:
