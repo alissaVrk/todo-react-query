@@ -40,19 +40,10 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: checkout main
-        run: |
-          git fetch origin main
-          git switch main
-          git pull origin main --ff
-      - id: dev-version
-        run: node scripts/extract-version.js
       - name: merge to main
         run: |
-          git checkout ${{ github.ref }}
           git switch -C merge/${{steps.extract-name-parts.outputs.version}}
-          git merge main --no-edit
-          npm version ${{ steps.dev-version.outputs.full_version }}
+          git pull origin main --ff -X theirs 
           git push origin merge/${{steps.extract-name-parts.outputs.version}}
       # TODO: this should work with a PR - so build will run
 
