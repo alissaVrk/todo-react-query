@@ -65,4 +65,4 @@ export function registerQueryDependency<T>(from: UseQueryOptions<T>, to: QueryKe
   }
 }
 
-//some shit asdsd 
+//some shit asdsd asdasdasdasd
