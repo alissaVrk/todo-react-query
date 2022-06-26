@@ -60,7 +60,7 @@ jobs:
 
             const existing = res.data;
 
-            console.log('EEEEE', existing);
+            console.log('EEEEE', JSON.stringify(existing));
 
             if (existing.length === 0) {
               await github.rest.pulls.create({
