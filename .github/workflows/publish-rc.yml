@@ -43,14 +43,15 @@ jobs:
       - name: checkout main
         run: |
           git fetch origin main
-          git checkout main
+          git switch main
           git pull origin main --ff
       - id: dev-version
         run: node scripts/extract-version.js
       - name: merge to main
         run: |
+          git checkout ${{ github.ref }}
           git switch -C merge/${{steps.extract-name-parts.outputs.version}}
-          git merge ${{ github.ref }}
+          git merge main --no-edit
           npm version ${{ steps.dev-version.outputs.full_version }}
           git push origin merge/${{steps.extract-name-parts.outputs.version}}
       # TODO: this should work with a PR - so build will run
