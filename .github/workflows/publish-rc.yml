@@ -32,6 +32,7 @@ jobs:
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
+          echo ${{ github.actor }}
       - name: bump version
         run: |
           npm version patch -m "bump version %s"
