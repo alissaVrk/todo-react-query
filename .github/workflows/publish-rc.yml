@@ -43,10 +43,9 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: merge to main
         run: |
-          git fetch
           git switch -C merge/${{steps.extract-name-parts.outputs.version}}
           git pull origin main --ff -X theirs
-          git push origin merge/${{steps.extract-name-parts.outputs.version}}
+          git push origin merge/${{steps.extract-name-parts.outputs.version}} --force
       - name: pr
         run: |
           gh api \
