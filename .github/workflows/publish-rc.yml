@@ -54,7 +54,7 @@ jobs:
         with: 
           script: |
              const script = require('./scripts/open-pr.js')
-             await script({ github, context, brancName: merge/${{steps.extract-name-parts.outputs.version}} });
+             await script({ github, context, brancName: 'merge/${{steps.extract-name-parts.outputs.version}}' });
 
   ng:
     if: github.event.pull_request.merged == true
