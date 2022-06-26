@@ -45,7 +45,33 @@ jobs:
         run: |
           git switch -C merge/${{steps.extract-name-parts.outputs.version}}
           git pull origin main --ff -X theirs
-          git push origin merge/${{steps.extract-name-parts.outputs.version}}
+          git push origin merge/${{steps.extract-name-parts.outputs.version}} --force
+      - uses: actions/github-script@v6
+        with: 
+          script: |
+            console.log('BBBB', 'merge/${{steps.extract-name-parts.outputs.version}}', '${{ github.ues }}');
+
+            const res = await github.rest.pulls.list({
+              owner: 'alissaVrk',
+              repo: 'todo-react-query',
+              base: 'main',
+              head: 'alissaVrk:merge/${{steps.extract-name-parts.outputs.version}}'
+            });
+
+            const existing = res.data;
+
+            console.log('EEEEE', JSON.stringify(existing));
+
+            if (existing.length === 0) {
+              await github.rest.pulls.create({
+                owner: 'alissaVrk',
+                repo: 'todo-react-query',
+                base: 'main',
+                head: 'alissaVrk:merge/${{steps.extract-name-parts.outputs.version}}',
+                title: 'merge/${{steps.extract-name-parts.outputs.version}}'
+              });
+            }
+
       # TODO: this should work with a PR - so build will run
 
   ng:
