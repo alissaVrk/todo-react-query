@@ -56,6 +56,8 @@ jobs:
               head: merge/${{steps.extract-name-parts.outputs.version}}
             });
 
+            console.log('EEEEE', existing);
+
             if (existing.length === 0) {
               await github.rest.pulls.create({
                 owner: 'alissaVrk',
