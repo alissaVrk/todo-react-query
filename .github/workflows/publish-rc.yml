@@ -68,7 +68,7 @@ jobs:
                 repo: 'todo-react-query',
                 base: 'main',
                 head: 'alissaVrk:merge/${{steps.extract-name-parts.outputs.version}}',
-                title: 'alissaVrk:merge/${{steps.extract-name-parts.outputs.version}}'
+                title: 'merge/${{steps.extract-name-parts.outputs.version}}'
               });
             }
 
