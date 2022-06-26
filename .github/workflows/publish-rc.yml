@@ -49,13 +49,13 @@ jobs:
       - uses: actions/github-script@v6
         with: 
           script: |
-            console.log('BBBB', 'merge/${{steps.extract-name-parts.outputs.version}}');
+            console.log('BBBB', 'merge/${{steps.extract-name-parts.outputs.version}}', '${{ github.ues }}');
 
             const res = await github.rest.pulls.list({
               owner: 'alissaVrk',
               repo: 'todo-react-query',
               base: 'main',
-              head: 'merge/${{steps.extract-name-parts.outputs.version}}'
+              head: 'alissaVrk:merge/${{steps.extract-name-parts.outputs.version}}'
             });
 
             const existing = res.data;
