@@ -49,12 +49,16 @@ jobs:
       - uses: actions/github-script@v6
         with: 
           script: |
-            const existing = await github.rest.pulls.list({
+            console.log('BBBB', 'merge/${{steps.extract-name-parts.outputs.version}}');
+
+            const res = await github.rest.pulls.list({
               owner: 'alissaVrk',
               repo: 'todo-react-query',
               base: 'main',
               head: 'merge/${{steps.extract-name-parts.outputs.version}}'
             });
+
+            const existing = res.data;
 
             console.log('EEEEE', existing);
 
