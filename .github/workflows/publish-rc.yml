@@ -46,11 +46,27 @@ jobs:
           git switch -C merge/${{steps.extract-name-parts.outputs.version}}
           git pull origin main --ff -X theirs
           git push origin merge/${{steps.extract-name-parts.outputs.version}} --force
-      - name: pr
-        run: |
-          gh api \
-            -H "Accept: application/vnd.github.v3+json" \
-            /repos/alissaVrk/todo-react-query/pulls?base:main
+      - uses: actions/github-script@v6
+        with: 
+          script: |
+            const existing = await github.rest.pulls.list({
+              owner: 'alissaVrk',
+              repo: 'todo-react-query',
+              base: 'main',
+              head: merge/${{steps.extract-name-parts.outputs.version}}
+            });
+
+            console.log('EEEEE', existing);
+
+            if (existing.length === 0) {
+              await github.rest.pulls.create({
+                owner: 'alissaVrk',
+                repo: 'todo-react-query',
+                base: 'main',
+                head: merge/${{steps.extract-name-parts.outputs.version}}
+              });
+            }
+
       # TODO: this should work with a PR - so build will run
 
   ng:
