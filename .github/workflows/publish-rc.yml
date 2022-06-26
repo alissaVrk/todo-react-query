@@ -67,7 +67,7 @@ jobs:
                 owner: 'alissaVrk',
                 repo: 'todo-react-query',
                 base: 'main',
-                head: 'merge/${{steps.extract-name-parts.outputs.version}}'
+                head: 'alissaVrk:merge/${{steps.extract-name-parts.outputs.version}}'
               });
             }
 
