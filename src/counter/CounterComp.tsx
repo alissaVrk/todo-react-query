@@ -12,4 +12,4 @@ export function CounterComp() {
             <span>and just for fun </span><Switch/>
         </div>
     );
-}
+}//asd
