@@ -17,7 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
@@ -37,11 +36,16 @@ jobs:
         run: |
           npm version patch -m "bump version %s"
           yarn build
-          git push origin ${{ github.ref }} --tags
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+          tags: true
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: merge to main
+      - name: create merge branch
         run: |
           git switch -C merge/${{steps.extract-name-parts.outputs.version}}
           git pull origin main --ff -X theirs
@@ -49,30 +53,8 @@ jobs:
       - uses: actions/github-script@v6
         with: 
           script: |
-            console.log('BBBB', 'merge/${{steps.extract-name-parts.outputs.version}}', '${{ github.ues }}');
-
-            const res = await github.rest.pulls.list({
-              owner: 'alissaVrk',
-              repo: 'todo-react-query',
-              base: 'main',
-              head: 'alissaVrk:merge/${{steps.extract-name-parts.outputs.version}}'
-            });
-
-            const existing = res.data;
-
-            console.log('EEEEE', JSON.stringify(existing));
-
-            if (existing.length === 0) {
-              await github.rest.pulls.create({
-                owner: 'alissaVrk',
-                repo: 'todo-react-query',
-                base: 'main',
-                head: 'alissaVrk:merge/${{steps.extract-name-parts.outputs.version}}',
-                title: 'merge/${{steps.extract-name-parts.outputs.version}}'
-              });
-            }
-
-      # TODO: this should work with a PR - so build will run
+             const script = require('./scripts/open-pr.js')
+             await script({ github, context, brancName: merge/${{steps.extract-name-parts.outputs.version}} });
 
   ng:
     if: github.event.pull_request.merged == true
