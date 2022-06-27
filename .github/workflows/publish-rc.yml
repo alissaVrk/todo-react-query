@@ -51,7 +51,8 @@ jobs:
           git switch -C merge/${{steps.extract-name-parts.outputs.version}}
           git pull origin main --ff -X theirs
           git push origin merge/${{steps.extract-name-parts.outputs.version}} --force
-      - uses: actions/github-script@v6
+      - name: create merge pr
+        uses: actions/github-script@v6
         with: 
           script: |
              const script = require('./scripts/open-pr.js')
