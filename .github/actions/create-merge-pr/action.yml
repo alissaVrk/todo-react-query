@@ -12,11 +12,15 @@ runs:
            return script('${{ github.ref }}');
     - id: merge-branch
       run: echo "::set-output name=name::merge/${{steps.extract-name-parts.outputs.result.version}}"
+      with:
+        shell: bash
     - name: create merge branch
       run: |
         git switch -C ${{steps.merge-branch.outputs.name}}
         git pull origin main --ff -X theirs
         git push origin ${{steps.merge-branch.outputs.name}} --force
+      with:
+        shell: bash
     - name: create merge pr
       uses: actions/github-script@v6
       with: 
