@@ -1,0 +1,25 @@
+name: create merge pr
+description: 'create pr with merge between dev branch and given branch'
+
+runs:
+  using: 'composite'
+  steps:
+    - id: extract-name-parts
+      uses: actions/github-script@v6
+      with: 
+        script: |
+           const script = require('./scripts/extract-name-params.js')
+           return script('${{ github.ref }}');
+    - id: merge-branch
+      run: echo "::set-output name=name::merge/${{steps.extract-name-parts.outputs.result.version}}"
+    - name: create merge branch
+      run: |
+        git switch -C ${{steps.merge-branch.outputs.name}}
+        git pull origin main --ff -X theirs
+        git push origin ${{steps.merge-branch.outputs.name}} --force
+    - name: create merge pr
+      uses: actions/github-script@v6
+      with: 
+        script: |
+           const script = require('./scripts/open-pr.js')
+           await script({ github, context, brancName: '${{steps.merge-branch.outputs.name}}' });

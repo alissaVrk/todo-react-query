@@ -28,7 +28,7 @@ jobs:
         with: 
           script: |
              const script = require('./scripts/extract-name-params.js')
-             await script(${{ github.ref }});
+             await script('${{ github.ref }}');
       - name: setup git config
         run: |
           git config user.name "GitHub Actions Bot"
@@ -41,21 +41,7 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: checkout main
-        run: |
-          git fetch
-          git checkout main
-          git pull origin main --ff
-      - id: dev-version
-        run: node scripts/extract-version.js
-      - id: merge-branch
-        run: echo "::set-output name=name::merge/${{steps.extract-name-parts.outputs.result.version}}"
-      - name: merge to main
-        run: |
-          git switch -C ${{steps.merge-branch.outputs.name}}
-          git merge ${{ github.ref }}
-          npm version ${{ steps.dev-version.outputs.full_version }}
-          git push origin ${{steps.merge-branch.outputs.name}}
+      - uses: ./.github/actions/create-merge-pr
 
   ng:
     if: github.event.pull_request.merged == true
