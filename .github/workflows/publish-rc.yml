@@ -48,19 +48,7 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - id: merge-branch
-        run: echo "::set-output name=name::merge/${{steps.extract-name-parts.outputs.result.version}}"
-      - name: create merge branch
-        run: |
-          git switch -C ${{steps.merge-branch.outputs.name}}
-          git pull origin main --ff -X theirs
-          git push origin ${{steps.merge-branch.outputs.name}} --force
-      - name: create merge pr
-        uses: actions/github-script@v6
-        with: 
-          script: |
-             const script = require('./scripts/open-pr.js')
-             await script({ github, context, brancName: '${{steps.merge-branch.outputs.name}}' });
+      - uses: ./.github/actions/create-merge-pr
 
   ng:
     if: github.event.pull_request.merged == true
