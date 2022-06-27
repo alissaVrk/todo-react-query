@@ -1,4 +1,4 @@
-module.exports = (branch) => {
+module.exports = (core, branch) => {
   console.log(branch);
   const parts = branch.split("/");
   const isHotfix = parts[2] === "hotfix";
@@ -7,11 +7,7 @@ module.exports = (branch) => {
   const version = isHotfix ? parts[parts.length - 3] : parts[parts.length - 2];
   const ngVersion = isHotfix ? parts[parts.length - 2] : "";
 
-  const ret = {
-    version,
-    desc,
-    ngVersion,
-  };
-  console.log('RRR', ret);
-  return ret;
+  core.setOutput("version", version);
+  core.setOutput("desc", desc);
+  core.setOutput("ngVersion", ngVersion);
 };
