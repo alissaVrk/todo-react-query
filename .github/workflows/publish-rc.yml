@@ -60,5 +60,6 @@ jobs:
         with: 
           branch-name: feature/rt${{ needs.react.outputs.version }}/${{ needs.react.outputs.branch-desc }}
           token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+      - uses: actions/checkout@v3
       #here we could, in theory, deploy to jenkins the new feature branch
 
