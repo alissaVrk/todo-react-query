@@ -11,4 +11,4 @@ jobs:
           fetch-depth: 0
       - run: |
           git checkout prod
-          git pull origin ${{ github.ref }} --ff-only
+          git pull origin ${{ github.ref }} --ff
