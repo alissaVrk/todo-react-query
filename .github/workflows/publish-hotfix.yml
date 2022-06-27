@@ -12,7 +12,7 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     outputs:
-      ng-version: ${{ steps.extract-name-parts.outputs.result.ngVersion }}
+      ng-version: ${{ steps.extract-name-parts.outputs.ngVersion }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -28,7 +28,7 @@ jobs:
         with: 
           script: |
              const script = require('./scripts/extract-name-params.js')
-             await script('${{ github.ref }}');
+             script(core, '${{ github.ref }}');
       - name: setup git config
         run: |
           git config user.name "GitHub Actions Bot"
