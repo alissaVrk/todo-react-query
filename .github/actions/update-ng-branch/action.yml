@@ -14,6 +14,10 @@ runs:
         repository: 'alissaVrk/ng-with-react'
         ref: ${{ inputs.branch-name }}
         token: ${{ inputs.token }}
+    - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
     - name: setup git config
       run: |
         git config user.name "GitHub Actions Bot"
