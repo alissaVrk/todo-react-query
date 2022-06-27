@@ -12,8 +12,8 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.extract-name-parts.outputs.version }}
-      branch-desc: ${{ steps.extract-name-parts.outputs.desc }}
+      version: ${{ steps.extract-name-parts.outputs.result.version }}
+      branch-desc: ${{ steps.extract-name-parts.outputs.result.desc }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -25,9 +25,11 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: yarn install --frozen-lockfile
       - id: extract-name-parts
-        run: node scripts/extract-name-params.js
-        env:
-          branch: ${{ github.ref }} 
+        uses: actions/github-script@v6
+        with: 
+          script: |
+             const script = require('./scripts/extract-name-params.js')
+             await script(${{ github.ref }});
       - name: setup git config
         run: |
           git config user.name "GitHub Actions Bot"
@@ -46,17 +48,19 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - id: merge-branch
+        run: echo "::set-output name=name::merge/${{steps.extract-name-parts.outputs.result.version}}"
       - name: create merge branch
         run: |
-          git switch -C merge/${{steps.extract-name-parts.outputs.version}}
+          git switch -C ${{steps.merge-branch.outputs.name}}
           git pull origin main --ff -X theirs
-          git push origin merge/${{steps.extract-name-parts.outputs.version}} --force
+          git push origin ${{steps.merge-branch.outputs.name}} --force
       - name: create merge pr
         uses: actions/github-script@v6
         with: 
           script: |
              const script = require('./scripts/open-pr.js')
-             await script({ github, context, brancName: 'merge/${{steps.extract-name-parts.outputs.version}}' });
+             await script({ github, context, brancName: '${{steps.merge-branch.outputs.name}}' });
 
   ng:
     if: github.event.pull_request.merged == true

@@ -12,7 +12,7 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     outputs:
-      ng-version: ${{ steps.extract-name-parts.outputs.ngVersion }}
+      ng-version: ${{ steps.extract-name-parts.outputs.result.ngVersion }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -24,9 +24,11 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: yarn install --frozen-lockfile
       - id: extract-name-parts
-        run: node scripts/extract-name-params.js
-        env:
-          branch: ${{ github.ref }} 
+        uses: actions/github-script@v6
+        with: 
+          script: |
+             const script = require('./scripts/extract-name-params.js')
+             await script(${{ github.ref }});
       - name: setup git config
         run: |
           git config user.name "GitHub Actions Bot"
@@ -47,12 +49,14 @@ jobs:
           git pull origin main --ff
       - id: dev-version
         run: node scripts/extract-version.js
+      - id: merge-branch
+        run: echo "::set-output name=name::merge/${{steps.extract-name-parts.outputs.result.version}}"
       - name: merge to main
         run: |
-          git switch -C merge/${{steps.extract-name-parts.outputs.version}}
+          git switch -C ${{steps.merge-branch.outputs.name}}
           git merge ${{ github.ref }}
           npm version ${{ steps.dev-version.outputs.full_version }}
-          git push origin merge/${{steps.extract-name-parts.outputs.version}}
+          git push origin ${{steps.merge-branch.outputs.name}}
 
   ng:
     if: github.event.pull_request.merged == true
