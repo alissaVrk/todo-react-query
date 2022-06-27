@@ -1,0 +1,30 @@
+name: bump and publish
+description: 'bump patch version of version and publish to npm'
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+        cache: 'yarn'
+        registry-url: 'https://registry.npmjs.org'
+    - run: yarn install --frozen-lockfile
+    - name: setup git config
+      run: |
+        git config user.name "GitHub Actions Bot"
+        git config user.email "<>"
+        echo ${{ github.actor }}
+    - name: bump version
+      run: |
+        npm version patch -m "bump version %s"
+        yarn build
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+        tags: true
+    - run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
