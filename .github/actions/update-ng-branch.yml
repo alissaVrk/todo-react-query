@@ -1,0 +1,25 @@
+name: update ng 
+description: 'update ng branch with correct react version'
+inputs:
+  branch-name:
+    required: true
+  token:
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v3
+      with:
+        repository: 'alissaVrk/ng-with-react'
+        ref: ${{ inputs.branch-name }}
+        token: ${{ inputs.token }}
+    - name: setup git config
+      run: |
+        git config user.name "GitHub Actions Bot"
+        git config user.email "<>"
+    - name: update ng react version
+      run: |
+        npm i alissa-todo-react-query
+        git commit -am "bump react version"
+        git push origin ${{ inputs.branch-name }}    

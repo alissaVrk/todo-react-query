@@ -67,21 +67,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: react
     steps:
-      - id: branch-name
-        run: echo "::set-output name=name::feature/rt${{ needs.react.outputs.version }}/${{ needs.react.outputs.branch-desc }}"
-      - uses: actions/checkout@v3
-        with:
-          repository: 'alissaVrk/ng-with-react'
-          ref: ${{ steps.branch-name.outputs.name }}
+      - uses: ./.github/actions/update-ng-branch
+        with: 
+          branch-name: feature/rt${{ needs.react.outputs.version }}/${{ needs.react.outputs.branch-desc }}
           token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
-      - name: setup git config
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-      - name: update ng react version
-        run: |
-          npm i alissa-todo-react-query
-          git commit -am "bump react version"
-          git push origin ${{ steps.branch-name.outputs.name }}
       #here we could, in theory, deploy to jenkins the new feature branch
 
