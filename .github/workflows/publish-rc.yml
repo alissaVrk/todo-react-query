@@ -55,6 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: react
     steps:
+      - uses: actions/checkout@v3
       - uses: ./.github/actions/update-ng-branch
         with: 
           branch-name: feature/rt${{ needs.react.outputs.version }}/${{ needs.react.outputs.branch-desc }}
