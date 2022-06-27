@@ -18,8 +18,10 @@ runs:
       run: |
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
+      shell: bash
     - name: update ng react version
       run: |
         npm i alissa-todo-react-query
         git commit -am "bump react version"
-        git push origin ${{ inputs.branch-name }}    
+        git push origin ${{ inputs.branch-name }}
+      shell: bash
