@@ -9,7 +9,9 @@ runs:
       with: 
         script: |
            const script = require('./scripts/extract-name-params.js')
-           return script('${{ github.ref }}');
+           const ret = script('${{ github.ref }}');
+           console.log('TTT', ret);
+           return ret;
     - id: merge-branch
       run: echo "::set-output name=name::merge/${{steps.extract-name-parts.outputs.result.version}}"
       shell: bash
