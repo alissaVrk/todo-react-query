@@ -12,12 +12,11 @@ module.exports = async ({ github, context, brancName }) => {
 
   const existing = res.data;
 
-  console.log("EEEEE", JSON.stringify(existing));
-
   if (existing.length === 0) {
     await github.rest.pulls.create({
       ...params,
       title: brancName,
+      body: 'DO NOT SQUASH THIS BRANCH. merge to dev branch.',
     });
   }
 };
