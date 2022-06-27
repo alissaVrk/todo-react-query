@@ -16,31 +16,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          cache: 'yarn'
-          registry-url: 'https://registry.npmjs.org'
-      - run: yarn install --frozen-lockfile
+          fetch-depth: 0
       - id: extract-name-parts
         uses: actions/github-script@v6
         with: 
           script: |
              const script = require('./scripts/extract-name-params.js')
              script(core, '${{ github.ref }}');
-      - name: setup git config
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-      - name: bump version
-        run: |
-          npm version patch -m "bump version %s"
-          yarn build
-          git push origin ${{ github.ref }} --tags
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - uses: ./.github/actions/bump-and-publish
       - uses: ./.github/actions/create-merge-pr
 
   ng:
@@ -48,9 +31,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: react
     steps:
+      - uses: actions/checkout@v3
       - uses: ./.github/actions/update-ng-branch
         with: 
           branch-name: release/${{ needs.react.outputs.ng-version }}
           token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+      - uses: actions/checkout@v3
       #here we could, in theory, deploy to jenkins the new feature branch
 
