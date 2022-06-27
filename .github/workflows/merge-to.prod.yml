@@ -10,5 +10,5 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
-        git checkout prod
-        git pull origin ${{ github.ref }}
+          git checkout prod
+          git pull origin ${{ github.ref }}
