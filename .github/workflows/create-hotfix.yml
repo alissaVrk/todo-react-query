@@ -19,18 +19,12 @@ jobs:
       version: ${{ steps.package-version.outputs.full_version }}
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
         with:
-          node-version: '16'
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile
+          ref: prod
       - name: setup git config
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-      - run: | 
-          git fetch origin prod 
-          git checkout prod
       - id: package-version
         uses: actions/github-script@v6
         with: 
