@@ -15,8 +15,6 @@ jobs:
       version: ${{ steps.package-version.outputs.version }}
     steps:
       - uses: actions/checkout@v3
-        with:
-          token:  ${{ secrets.ACTIONS_GITHUB_TOKEN }}
       - id: package-version
         uses: actions/github-script@v6
         with: 
@@ -32,11 +30,16 @@ jobs:
           branch-name: release/${{ steps.package-version.outputs.version}}/${{inputs.name}}
 
       - name: bump dev version
-        #do not push the tag because there is no publish
         run: |
           git checkout main
           npm version minor -m "next release %s"
-          git push origin main 
+      #do not push the tag because there is no publish
+      - name: push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          branch: dev
+          tags: false
 
   ng:
     runs-on: ubuntu-latest
