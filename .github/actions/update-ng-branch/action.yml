@@ -5,6 +5,9 @@ inputs:
     required: true
   token:
     required: true
+  should-create:
+    required: false
+    default: false
 
 runs:
   using: 'composite'
@@ -23,6 +26,11 @@ runs:
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
       shell: bash
+    - name: create branch
+      if: ${{ inputs.should-create }}
+      shell: bash
+      run: git checkout -b ${{ inputs.branch-name }}
+      
     - name: update ng react version
       run: |
         npm i alissa-todo-react-query
