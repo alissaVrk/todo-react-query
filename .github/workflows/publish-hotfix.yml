@@ -24,6 +24,9 @@ jobs:
              const script = require('./scripts/extract-name-params.js')
              script(core, '${{ github.ref }}');
       - uses: ./.github/actions/bump-and-publish
+        with:
+          push-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          npm-token: ${{ secrets.NPM_TOKEN }}
       - uses: ./.github/actions/create-merge-pr
 
   ng:
