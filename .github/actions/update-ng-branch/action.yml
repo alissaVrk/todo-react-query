@@ -15,7 +15,7 @@ runs:
     - uses: actions/checkout@v3
       with:
         repository: 'alissaVrk/ng-with-react'
-        ref: ${{ inputs.branch-name }}
+        ref: master
         token: ${{ inputs.token }}
     - uses: actions/setup-node@v3
       with:
@@ -30,9 +30,10 @@ runs:
       if: ${{ inputs.should-create }}
       shell: bash
       run: git checkout -b ${{ inputs.branch-name }}
-      
+
     - name: update ng react version
       run: |
+        git checkout ${{ inputs.branch-name }}
         npm i alissa-todo-react-query
         git commit -am "bump react version"
         git push origin ${{ inputs.branch-name }}
