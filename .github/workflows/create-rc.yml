@@ -17,29 +17,20 @@ jobs:
       - uses: actions/checkout@v3
         with:
           token:  ${{ secrets.ACTIONS_GITHUB_TOKEN }}
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          cache: 'yarn'
-          registry-url: 'https://registry.npmjs.org'
-      - run: yarn install --frozen-lockfile
       - id: package-version
-        run: node scripts/extract-version.js
-      - name: setup git config
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-      - id: branch-name
-        run: echo "::set-output name=name::release/${{ steps.package-version.outputs.version}}/${{inputs.name}}"
-      - name: create release
-        run: |
-          git checkout -b ${{ steps.branch-name.outputs.name }}
-          npm version patch -m "bump version %s"
-          yarn build
-          git push origin ${{ steps.branch-name.outputs.name }} --tags
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        uses: actions/github-script@v6
+        with: 
+          script: |
+             const script = require('./scripts/extract-version.js')
+             script(core);
+
+      - uses: ./.github/actions/bump-and-publish
+        with:
+          push-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          npm-token: ${{ secrets.NPM_TOKEN }}
+          should-create: true
+          branch-name: release/${{ steps.package-version.outputs.version}}/${{inputs.name}}
+
       - name: bump dev version
         #do not push the tag because there is no publish
         run: |

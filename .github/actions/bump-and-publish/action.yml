@@ -5,6 +5,12 @@ inputs:
     required: true
   npm-token:
     required: true
+  branch-name:
+    required: false
+    default: ${{ github.ref }}
+  should-create:
+    required: false
+    default: false
 
 runs:
   using: 'composite'
@@ -22,6 +28,10 @@ runs:
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
         echo ${{ github.actor }}
+    - name: create branch
+      if: ${{ inputs.should-create }} 
+      shell: bash
+      run: git checkout -b ${{ inputs.branch-name }}
     - name: bump version 
       shell: bash
       run: |
@@ -31,7 +41,7 @@ runs:
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ inputs.push-token }}
-        branch: ${{ github.ref }}
+        branch: ${{ inputs.branch-name }}
         tags: true
     - run: npm publish
       shell: bash
