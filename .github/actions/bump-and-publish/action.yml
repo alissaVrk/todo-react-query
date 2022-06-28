@@ -57,7 +57,7 @@ runs:
     
     - id: package-version
       uses: actions/github-script@v6
-        with: 
-          script: |
-             const script = require('./scripts/extract-version.js')
-             script(core);
+      with: 
+        script: |
+          const script = require('./scripts/extract-version.js')
+          script(core);
