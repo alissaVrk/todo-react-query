@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       ng-version: ${{ steps.extract-name-parts.outputs.ngVersion }}
+      published-version: ${{ steps.bump-and-publish.outputs.published-version }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -23,7 +24,8 @@ jobs:
           script: |
              const script = require('./scripts/extract-name-params.js')
              script(core, '${{ github.ref }}');
-      - uses: ./.github/actions/bump-and-publish
+      - id: bump-and-publish
+        uses: ./.github/actions/bump-and-publish
         with:
           push-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
           npm-token: ${{ secrets.NPM_TOKEN }}
@@ -38,6 +40,7 @@ jobs:
       - uses: ./.github/actions/update-ng-branch
         with: 
           branch-name: release/${{ needs.react.outputs.ng-version }}
+          react-version: ${{ needs.react.outputs.published-version }}
           token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
       - uses: actions/checkout@v3
       #here we could, in theory, deploy to jenkins the new feature branch

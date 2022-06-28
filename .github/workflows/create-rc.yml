@@ -12,7 +12,8 @@ jobs:
   react:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.package-version.outputs.version }}
+      version-name: ${{ steps.package-version.outputs.version }}
+      published-version: ${{ steps.bump-and-publish.outputs.published-version }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -24,7 +25,8 @@ jobs:
              const script = require('./scripts/extract-version.js')
              script(core);
 
-      - uses: ./.github/actions/bump-and-publish
+      - id: bump-and-publish
+        uses: ./.github/actions/bump-and-publish
         with:
           push-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
           npm-token: ${{ secrets.NPM_TOKEN }}
@@ -45,7 +47,8 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/update-ng-branch
         with: 
-          branch-name: feature/rt${{needs.react.outputs.version}}/${{inputs.name}}
+          branch-name: feature/rt${{needs.react.outputs.version-name}}/${{inputs.name}}
+          react-version: ${{ needs.react.outputs.published-version }}
           token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
           should-create: true
       - uses: actions/checkout@v3

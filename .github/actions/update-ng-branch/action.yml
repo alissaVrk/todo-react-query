@@ -3,6 +3,8 @@ description: 'update ng branch with correct react version'
 inputs:
   branch-name:
     required: true
+  react-version:
+    required: true
   token:
     required: true
   should-create:
@@ -34,7 +36,7 @@ runs:
     - name: update ng react version
       run: |
         git checkout ${{ inputs.branch-name }}
-        npm i alissa-todo-react-query
-        git commit -am "bump react version"
+        npm i alissa-todo-react-query@${{ inputs.react-version }}
+        git commit -am "bump react version ${{ inputs.branch-name }}"
         git push origin ${{ inputs.branch-name }}
       shell: bash
