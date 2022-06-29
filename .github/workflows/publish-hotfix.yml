@@ -6,6 +6,8 @@ on:
       - closed
     branches: 
       - 'hotfix/**'
+      
+concurrency: ${{ github.ref }}
 
 jobs:
   react:
