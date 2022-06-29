@@ -38,6 +38,7 @@ jobs:
         run: |
           git checkout main
           npm version minor -m "next release %s"
+          git pull origin main --ff
           git push origin main
 
   ng:
