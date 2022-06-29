@@ -28,15 +28,21 @@ runs:
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
       shell: bash
+
     - name: create branch
       if: ${{ inputs.should-create == 'true'}}
       shell: bash
       run: git checkout -b ${{ inputs.branch-name }}
 
-    - name: update ng react version
+    - name: fetch branch
+      if: ${{ inputs.should-create != 'true'}}
+      shell: bash
       run: |
         git fetch origin ${{ inputs.branch-name }}
         git checkout ${{ inputs.branch-name }}
+
+    - name: update ng react version
+      run: |
         npm i alissa-todo-react-query@${{ inputs.react-version }}
         git commit -am "bump react version ${{ inputs.react-version }}"
         git push origin ${{ inputs.branch-name }}
