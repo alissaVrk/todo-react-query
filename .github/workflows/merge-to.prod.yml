@@ -1,6 +1,7 @@
 name: merge to prod
 on: 
   workflow_dispatch
+concurrency: prod
 
 jobs:
   merge:
