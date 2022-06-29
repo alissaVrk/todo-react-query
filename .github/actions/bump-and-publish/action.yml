@@ -34,9 +34,11 @@ runs:
         git config user.email "<>"
         echo ${{ github.actor }}
     - name: create branch
-      if: ${{ inputs.should-create }} == true
+      if: ${{ inputs.should-create == 'true'}} 
       shell: bash
-      run: git checkout -b ${{ inputs.branch-name }}
+      run: | 
+        echo CREATE ${{ inputs.should-create }}
+        git checkout -b ${{ inputs.branch-name }}
     - name: bump version 
       shell: bash
       run: |
