@@ -7,7 +7,9 @@ on:
     branches: 
       - 'hotfix/**'
       
-concurrency: ${{ github.ref }}
+concurrency: 
+  group: ${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   react:
