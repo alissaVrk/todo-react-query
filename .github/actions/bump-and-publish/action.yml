@@ -45,7 +45,9 @@ runs:
         npm version patch -m "bump version %s"
         yarn build
     
-    - run: npm publish
+    - run: | 
+        npm publish
+        git pull origin ${{ inputs.branch-name }} --ff
       shell: bash
       env:
         NODE_AUTH_TOKEN: ${{ inputs.npm-token }}
