@@ -29,7 +29,7 @@ runs:
         git config user.email "<>"
       shell: bash
     - name: create branch
-      if: ${{ inputs.should-create }}
+      if: ${{ inputs.should-create }} == true
       shell: bash
       run: git checkout -b ${{ inputs.branch-name }}
 
