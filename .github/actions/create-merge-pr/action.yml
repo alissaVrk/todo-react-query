@@ -8,7 +8,7 @@ runs:
       uses: actions/github-script@v6
       with: 
         script: |
-           const script = require('./scripts/extract-name-params.js')
+           const script = require('./.github/scripts/extract-name-params.js')
            script(core, '${{ github.ref }}');
     - id: merge-branch
       run: echo "::set-output name=name::merge/${{steps.extract-name-parts.outputs.version}}"
@@ -23,5 +23,5 @@ runs:
       uses: actions/github-script@v6
       with: 
         script: |
-           const script = require('./scripts/open-pr.js')
+           const script = require('./.github/scripts/open-pr.js')
            await script({ github, context, brancName: '${{steps.merge-branch.outputs.name}}' });

@@ -23,7 +23,7 @@ jobs:
         uses: actions/github-script@v6
         with: 
           script: |
-             const script = require('./scripts/extract-name-params.js')
+             const script = require('./.github/scripts/extract-name-params.js')
              script(core, '${{ github.ref }}');
       - id: bump-and-publish
         uses: ./.github/actions/bump-and-publish

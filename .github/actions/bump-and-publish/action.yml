@@ -61,5 +61,5 @@ runs:
       uses: actions/github-script@v6
       with: 
         script: |
-          const script = require('./scripts/extract-version.js')
+          const script = require('./.github/scripts/extract-version.js')
           script(core);
