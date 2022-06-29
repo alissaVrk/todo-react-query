@@ -35,6 +35,7 @@ runs:
 
     - name: update ng react version
       run: |
+        git fetch origin ${{ inputs.branch-name }}
         git checkout ${{ inputs.branch-name }}
         npm i alissa-todo-react-query@${{ inputs.react-version }}
         git commit -am "bump react version ${{ inputs.branch-name }}"
