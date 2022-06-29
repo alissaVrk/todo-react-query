@@ -38,6 +38,6 @@ runs:
         git fetch origin ${{ inputs.branch-name }}
         git checkout ${{ inputs.branch-name }}
         npm i alissa-todo-react-query@${{ inputs.react-version }}
-        git commit -am "bump react version ${{ inputs.branch-name }}"
+        git commit -am "bump react version ${{ inputs.react-version }}"
         git push origin ${{ inputs.branch-name }}
       shell: bash
