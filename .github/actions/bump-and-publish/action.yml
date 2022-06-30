@@ -45,8 +45,6 @@ runs:
         npm version patch -m "bump version %s"
         yarn build
         git push origin ${{ inputs.branch-name }} --tags
-      env: 
-        GITHUB_TOKEN: ${{ inputs.push-token }}
 
     - run: npm publish
       shell: bash

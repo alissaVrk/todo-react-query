@@ -1,5 +1,8 @@
 name: create merge pr
 description: 'create pr with merge between dev branch and given branch'
+inputs:
+  token:
+    required: true
 
 runs:
   using: 'composite'
@@ -22,6 +25,7 @@ runs:
     - name: create merge pr
       uses: actions/github-script@v6
       with: 
+        github-token: ${{ inputs.token }}
         script: |
            const script = require('./.github/scripts/open-pr.js')
            await script({ github, context, brancName: '${{steps.merge-branch.outputs.name}}' });
