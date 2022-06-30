@@ -46,8 +46,8 @@ runs:
         yarn build
         git push origin ${{ inputs.branch-name }} --tags
       env: 
-        GITHUB_TOKEN: ${{ push-token }}
-        
+        GITHUB_TOKEN: ${{ inputs.push-token }}
+
     - run: npm publish
       shell: bash
       env:
