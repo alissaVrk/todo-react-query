@@ -44,16 +44,11 @@ runs:
       run: |
         npm version patch -m "bump version %s"
         yarn build
-    
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ inputs.push-token }}
-        branch: ${{ inputs.branch-name }}
-        tags: true
+        git push origin ${{ inputs.branch-name }} --tags
+      env: 
+        GITHUB_TOKEN: ${{ push-token }}
         
-    - run: | 
-        npm publish
+    - run: npm publish
       shell: bash
       env:
         NODE_AUTH_TOKEN: ${{ inputs.npm-token }}
