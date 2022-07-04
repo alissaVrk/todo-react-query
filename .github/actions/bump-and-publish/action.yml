@@ -1,8 +1,6 @@
 name: bump and publish
 description: 'bump patch version of version and publish to npm'
 inputs:
-  push-token:
-    required: true
   npm-token:
     required: true
   branch-name:

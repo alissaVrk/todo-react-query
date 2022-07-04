@@ -32,7 +32,6 @@ jobs:
       - id: bump-and-publish
         uses: ./.github/actions/bump-and-publish
         with:
-          push-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
           npm-token: ${{ secrets.NPM_TOKEN }}
       - uses: ./.github/actions/create-merge-pr
         with:

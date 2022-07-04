@@ -28,7 +28,6 @@ jobs:
       - id: bump-and-publish
         uses: ./.github/actions/bump-and-publish
         with:
-          push-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
           npm-token: ${{ secrets.NPM_TOKEN }}
           should-create: true
           branch-name: release/${{ steps.package-version.outputs.version}}/${{inputs.name}}
