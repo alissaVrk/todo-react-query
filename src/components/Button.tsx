@@ -5,6 +5,7 @@ export type ButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonEleme
 }
 
 //commit 1
+//commit B
 export default function Button(props: ButtonProps) {
     const commonStyles = `r-h-[31px] r-inline-flex r-items-center`;
     if (props.variant === "text") {
