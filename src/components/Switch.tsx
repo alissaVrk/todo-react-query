@@ -6,6 +6,7 @@ export type SwitchProps = Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputEl
 }
 //commit B1
 //commit R1
+//commit H1
 export default function Switch(props: SwitchProps) {
     const [checked, setChecked] = useState(!!props.checked);
 
