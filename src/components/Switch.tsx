@@ -4,14 +4,14 @@ import classNames from "classnames"
 export type SwitchProps = Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "onChange"> & {
     onChange?: (isChecked: boolean) => void
 }
-
+//commit B1
 export default function Switch(props: SwitchProps) {
     const [checked, setChecked] = useState(!!props.checked);
 
     const lineCss = classNames(
-        "before:r-absolute", "before:r-block", 
+        "before:r-absolute", "before:r-block",
         `before:r-w-[23px]`, "before:r-h-3",
-        "before:r-top-6", "before:r-left-0", 
+        "before:r-top-6", "before:r-left-0",
         "before:r-rounded-sm",
         {
             "before:r-bg-blue-500": checked,
@@ -34,22 +34,22 @@ export default function Switch(props: SwitchProps) {
         },
         "after:r-transition-transform", "after:r-duration-200"
     );
-    
 
-    return(
+
+    return (
         <div className="r-w-[23px] r-h-13 r-inline-block r-relative r-select-none">
-            
-            <span 
+
+            <span
                 className={`r-relative r-align-middle ${lineCss} ${circleCss}`}
             />
-            <input {...props} type="checkbox" 
+            <input {...props} type="checkbox"
                 className="r-opacity-0 r-absolute r-top-0 r-w-[23px] r-h-15"
-                checked={checked} 
+                checked={checked}
                 onChange={(e) => {
                     setChecked(e.target.checked);
                     props.onChange?.(e.target.checked)
                 }}
-                />
+            />
         </div>
     )
 }
