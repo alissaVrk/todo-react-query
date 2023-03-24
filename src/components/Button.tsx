@@ -4,6 +4,7 @@ export type ButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonEleme
     variant?: "default" | "text" | "textNoHover"
 }
 
+//commit 1
 export default function Button(props: ButtonProps) {
     const commonStyles = `r-h-[31px] r-inline-flex r-items-center`;
     if (props.variant === "text") {
@@ -12,7 +13,7 @@ export default function Button(props: ButtonProps) {
                 <button {...props} className={`r-px-3 hover:r-text-blue-500`} />
             </div>
         )
-    } 
+    }
     if (props.variant === "textNoHover") {
         return (
             <div className={`${commonStyles} r-mb-[13px]`}>
