@@ -1,5 +1,5 @@
 name: autorun - bump release version
-
+run-name: bump ${{ github.ref }} by ${{github.ref_name}}
 on:
   pull_request:
     types:
@@ -19,21 +19,33 @@ jobs:
       branch-desc: ${{ steps.extract-name-parts.outputs.desc }}
       published-version: ${{ steps.bump-and-publish.outputs.published-version }}
     steps:
-      - uses: actions/checkout@v3
+      - name: echo actor
+        run: echo actor - ${{github.actor}} triggering actor - ${{github.triggering_actor}}
+      - name: checkout release branch
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
-      - id: extract-name-parts
+      - name: extract name parts
+        id: extract-name-parts
         uses: actions/github-script@v6
         with:
           script: |
             const script = require('./.github/scripts/extract-name-params.js')
             script(core, '${{ github.ref }}');
-      - id: bump-and-publish
+      - name: bump version and publish to npm
+        id: bump-and-publish
         uses: ./.github/actions/bump-and-publish
         with:
           npm-token: ${{ secrets.NPM_TOKEN }}
-      - uses: ./.github/actions/create-merge-pr
+
+  create-merge-pr:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    needs: react
+    steps:
+      - name: create merge pr to dev
+        uses: ./.github/actions/create-merge-pr
         with:
           token: ${{ github.token }}
 
@@ -42,8 +54,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: react
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/update-ng-branch
+      - name: checkout master
+        uses: actions/checkout@v3
+      - name: update react version in ng release feature branch
+        uses: ./.github/actions/update-ng-branch
         with:
           branch-name: feature/rt${{ needs.react.outputs.version-name }}/${{ needs.react.outputs.branch-desc }}
           react-version: ${{ needs.react.outputs.published-version }}
