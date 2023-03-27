@@ -4,10 +4,7 @@ import classNames from "classnames"
 export type SwitchProps = Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "onChange"> & {
     onChange?: (isChecked: boolean) => void
 }
-//commit B1
-//commit R1
-//commit H1
-//commit A1
+
 export default function Switch(props: SwitchProps) {
     const [checked, setChecked] = useState(!!props.checked);
 
