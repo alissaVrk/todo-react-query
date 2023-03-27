@@ -6,11 +6,13 @@ jobs:
   merge:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: checkout incoming release / hotfix branch
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
-      - run: |
+      - name: create merge commit in master with incoming branch content
+        run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
           git status
@@ -24,8 +26,9 @@ jobs:
           git rm -rf .         # delete all changes
 
           git checkout ${{ github.ref }} -- .     #take all files from incoming branch
-          git commit -am "merge ${{ github.ref }} to master"
+          git commit -am "merge by take all content from ${{ github.ref }}"
           git push origin prod
-
+      - name: delete incoming release / hotfix branch
+        run: |
           # delete incoming branch
           git push origin --delete ${{ github.ref }}
