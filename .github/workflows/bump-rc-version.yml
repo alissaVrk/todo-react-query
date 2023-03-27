@@ -1,5 +1,5 @@
 name: autorun - bump release version
-run-name: bump ${{ github.ref }} by ${{github.ref_name}}
+run-name: bump ${{ github.ref }}
 on:
   pull_request:
     types:
@@ -44,6 +44,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: react
     steps:
+      - name: checkout release branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
       - name: create merge pr to dev
         uses: ./.github/actions/create-merge-pr
         with:
