@@ -1,5 +1,5 @@
 name: autorun - bump release version
-run-name: bump ${{ github.ref }} by ${{github.ref_name}}
+run-name: bump ${{ github.ref }}
 on:
   pull_request:
     types:
