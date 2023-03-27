@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       name:
-        description: "suffix for the branch names"
+        description: "suffix for the branch names, no spaces"
         required: true
         type: string
 
@@ -16,17 +16,21 @@ jobs:
       version-name: ${{ steps.package-version.outputs.version }}
       published-version: ${{ steps.bump-and-publish.outputs.published-version }}
     steps:
-      - uses: actions/checkout@v3
+      - name: checkout dev branch
+        uses: actions/checkout@v3
         with:
           token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
-      - id: package-version
+          ref: "main"
+      - name: extract version
+        id: package-version
         uses: actions/github-script@v6
         with:
           script: |
             const script = require('./.github/scripts/extract-version.js')
             script(core);
 
-      - id: bump-and-publish
+      - name: bump version and publish to npm
+        id: bump-and-publish
         uses: ./.github/actions/bump-and-publish
         with:
           npm-token: ${{ secrets.NPM_TOKEN }}
@@ -45,8 +49,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: react
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/update-ng-branch
+      - name: checkout master
+        uses: actions/checkout@v3
+      - name: create feature branch with new react version
+        uses: ./.github/actions/update-ng-branch
         with:
           branch-name: feature/rt${{needs.react.outputs.version-name}}/${{inputs.name}}
           react-version: ${{ needs.react.outputs.published-version }}
