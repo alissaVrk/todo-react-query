@@ -1,10 +1,10 @@
 name: create hotfix
 
-on: 
-  workflow_dispatch: 
-    inputs: 
-      ng-version: 
-        description: 'ng hotfix version to be created'
+on:
+  workflow_dispatch:
+    inputs:
+      ng-version:
+        description: "ng hotfix version to be created"
         required: true
         type: string
 
@@ -23,10 +23,10 @@ jobs:
           git config user.email "<>"
       - id: package-version
         uses: actions/github-script@v6
-        with: 
+        with:
           script: |
-             const script = require('./.github/scripts/extract-version.js')
-             script(core);
+            const script = require('./.github/scripts/extract-version.js')
+            script(core);
       - id: branch-name
         run: echo "::set-output name=name::hotfix/${{ steps.package-version.outputs.full_version}}/${{inputs.ng-version}}"
       - name: create hotfix
@@ -40,9 +40,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: 'alissaVrk/ng-with-react'
-          ref: 'master'
-          token:  ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          repository: "alissaVrk/ng-with-react"
+          ref: "master"
+          token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
       - name: setup git config
         run: |
           git config user.name "GitHub Actions Bot"
@@ -52,4 +52,3 @@ jobs:
           git checkout -b release/${{inputs.ng-version}}
           git push origin release/${{inputs.ng-version}}
       - run: echo ng branch created release/${{inputs.ng-version}}
-

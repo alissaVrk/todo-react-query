@@ -1,13 +1,13 @@
-name: publish hotfix
+name: autorun - bump hotfix version
 
-on: 
-  pull_request: 
+on:
+  pull_request:
     types:
       - closed
-    branches: 
-      - 'hotfix/**'
-      
-concurrency: 
+    branches:
+      - "hotfix/**"
+
+concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
 
@@ -22,13 +22,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          token:  ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
       - id: extract-name-parts
         uses: actions/github-script@v6
-        with: 
+        with:
           script: |
-             const script = require('./.github/scripts/extract-name-params.js')
-             script(core, '${{ github.ref }}');
+            const script = require('./.github/scripts/extract-name-params.js')
+            script(core, '${{ github.ref }}');
       - id: bump-and-publish
         uses: ./.github/actions/bump-and-publish
         with:
@@ -44,10 +44,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/update-ng-branch
-        with: 
+        with:
           branch-name: release/${{ needs.react.outputs.ng-version }}
           react-version: ${{ needs.react.outputs.published-version }}
           token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
       - uses: actions/checkout@v3
       #here we could, in theory, deploy to jenkins the new feature branch
-
