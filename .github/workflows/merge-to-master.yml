@@ -1,4 +1,6 @@
 name: merge to master
+run-name: merge ${{ github.ref }} to master
+
 on: workflow_dispatch
 concurrency: prod
 
