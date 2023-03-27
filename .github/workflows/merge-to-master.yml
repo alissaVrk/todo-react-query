@@ -1,0 +1,31 @@
+name: merge to master
+on: workflow_dispatch
+concurrency: prod
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+      - run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          git status
+          git checkout ${{ github.ref }}
+          git pull origin ${{ github.ref }}
+
+          git checkout prod
+
+          # starting to merge incoming branch to master
+          git merge --no-commit -s ours ${{ github.ref }}     # start merge, no commit
+          git rm -rf .         # delete all changes
+
+          git checkout ${{ github.ref }} -- .     #take all files from incoming branch
+          git commit -am "merge ${{ github.ref }} to master"
+          git push origin prod
+
+          # delete incoming branch
+          git push origin --delete ${{ github.ref }}

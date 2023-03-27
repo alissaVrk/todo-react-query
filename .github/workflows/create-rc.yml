@@ -1,10 +1,10 @@
 name: create release
 
-on: 
-  workflow_dispatch: 
-    inputs: 
-      name: 
-        description: 'suffix for the branch names'
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "suffix for the branch names"
         required: true
         type: string
 
@@ -17,13 +17,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token:  ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
       - id: package-version
         uses: actions/github-script@v6
-        with: 
+        with:
           script: |
-             const script = require('./.github/scripts/extract-version.js')
-             script(core);
+            const script = require('./.github/scripts/extract-version.js')
+            script(core);
 
       - id: bump-and-publish
         uses: ./.github/actions/bump-and-publish
@@ -46,12 +46,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/update-ng-branch
-        with: 
+        with:
           branch-name: feature/rt${{needs.react.outputs.version-name}}/${{inputs.name}}
           react-version: ${{ needs.react.outputs.published-version }}
           token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
           should-create: true
       - uses: actions/checkout@v3
-      - run: echo ng branch created ${{ steps.branch-name.outputs.name }}
+      - run: echo ng branch created feature/rt${{needs.react.outputs.version-name}}/${{inputs.name}}
       #here we could, in theory, deploy to jenkins the new feature branch
-

@@ -1,5 +1,5 @@
 name: bump and publish
-description: 'bump patch version of version and publish to npm'
+description: "bump patch version of version and publish to npm"
 inputs:
   npm-token:
     required: true
@@ -16,28 +16,27 @@ outputs:
     value: ${{ steps.package-version.outputs.full_version }}
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - uses: actions/setup-node@v3
       with:
-        node-version: '16'
-        cache: 'yarn'
-        registry-url: 'https://registry.npmjs.org'
-    - run: yarn install --frozen-lockfile 
+        node-version: "16"
+        cache: "yarn"
+        registry-url: "https://registry.npmjs.org"
+    - run: yarn install --frozen-lockfile
       shell: bash
-    - name: setup git config 
+    - name: setup git config
       shell: bash
       run: |
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
-        echo ${{ github.actor }}
     - name: create branch
-      if: ${{ inputs.should-create == 'true'}} 
+      if: ${{ inputs.should-create == 'true'}}
       shell: bash
-      run: | 
+      run: |
         echo CREATE ${{ inputs.should-create }}
         git checkout -b ${{ inputs.branch-name }}
-    - name: bump version 
+    - name: bump version
       shell: bash
       run: |
         npm version patch -m "bump version %s"
@@ -48,10 +47,10 @@ runs:
       shell: bash
       env:
         NODE_AUTH_TOKEN: ${{ inputs.npm-token }}
-    
+
     - id: package-version
       uses: actions/github-script@v6
-      with: 
+      with:
         script: |
           const script = require('./.github/scripts/extract-version.js')
           script(core);
