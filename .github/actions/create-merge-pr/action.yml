@@ -38,5 +38,5 @@ runs:
         github-token: ${{ inputs.token }}
         script: |
           const script = require('./.github/scripts/open-pr.js')
-          console.log('ACTOR', ${{github.actor}}, "TRIGGERING", ${{triggering_actor}});
+          console.log('ACTOR', "${{github.actor}}", "TRIGGERING", "${{github.triggering_actor}}");
           await script({ github, context, branchName: '${{steps.merge-branch.outputs.name}}', originBranchName: '${{inputs.merge-with-branch}}' });

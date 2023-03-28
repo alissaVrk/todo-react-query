@@ -1,12 +1,4 @@
 module.exports = async ({ github, context, branchName, originBranchName }) => {
-  console.log(
-    "BBBB",
-    branchName,
-    originBranchName,
-    context.repo,
-    context.actor
-  );
-
   const params = {
     owner: context.repo.owner,
     repo: context.repo.repo,
