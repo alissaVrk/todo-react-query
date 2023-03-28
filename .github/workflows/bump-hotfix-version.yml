@@ -44,7 +44,7 @@ jobs:
         with:
           script: |
             const script = require('./.github/scripts/find-release-branches-and-dev.js')
-            script(github, core);
+            script(github, context, core);
 
   create-merge-pr:
     if: github.event.pull_request.merged == true
@@ -52,7 +52,7 @@ jobs:
     needs: react
     strategy:
       matrix:
-        branch: ${{ needs.react.outputs.release-branches }}
+        branch: ${{ fromJSON(needs.react.outputs.release-branches) }}
     steps:
       - name: checkout react for actions
         uses: actions/checkout@v3
