@@ -37,6 +37,13 @@ jobs:
         uses: ./.github/actions/bump-and-publish
         with:
           npm-token: ${{ secrets.NPM_TOKEN }}
+     - name: find all release branches
+        id: find-release-branches
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const script = require('./.github/scripts/get-all-release-branches.js')
+            script(github, core);
 
   create-merge-pr:
     if: github.event.pull_request.merged == true
