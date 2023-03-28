@@ -1,13 +1,4 @@
 module.exports = async ({ github, context, branchName, originBranchName }) => {
-  console.log(
-    "BBBB",
-    branchName,
-    originBranchName,
-    context.repo,
-    context.actor
-  );
-  console.log("CCCC", github.actor);
-
   const params = {
     owner: context.repo.owner,
     repo: context.repo.repo,
@@ -20,10 +11,20 @@ module.exports = async ({ github, context, branchName, originBranchName }) => {
   const existing = res.data;
 
   if (existing.length === 0) {
-    await github.rest.pulls.create({
+    const pull = await github.rest.pulls.create({
       ...params,
       title: branchName,
       body: "DO NOT SQUASH THIS BRANCH. merge to dev branch.",
+    });
+
+    const pullNumber = pull.data.number;
+
+    //https://github.com/octokit/plugin-rest-endpoint-methods.js/blob/main/docs/pulls/requestReviewers.md
+    await github.rest.pulls.requestReviewers({
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      pull_number: pullNumber,
+      reviewers: [context.actor],
     });
   }
 };
