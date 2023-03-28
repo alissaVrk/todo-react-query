@@ -1,5 +1,6 @@
-module.exports = async (github, core) => {
-  const allBranches = await github.rest.branches.list({
+module.exports = async (github, context, core) => {
+  //https://github.com/octokit/plugin-rest-endpoint-methods.js/blob/main/docs/repos/listBranches.md
+  const allBranches = await github.rest.repos.listBranches({
     owner: context.repo.owner,
     repo: context.repo.repo,
     protected: true,

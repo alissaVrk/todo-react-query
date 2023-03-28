@@ -19,7 +19,7 @@ runs:
           script(core, '${{ github.ref }}');
     - name: output merge branch name
       id: merge-branch
-      run: echo "::set-output name=name::merge/${{steps.extract-name-parts.outputs.version}}/${{ inputs.merge-with-branch }}"
+      run: echo "{name}={merge/${{steps.extract-name-parts.outputs.version}}/${{ inputs.merge-with-branch }}}" >> $GITHUB_OUTPUT
       shell: bash
     - name: create merge branch
       run: |
