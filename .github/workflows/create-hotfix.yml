@@ -30,7 +30,7 @@ jobs:
             const script = require('./.github/scripts/extract-version.js')
             script(core);
       - id: branch-name
-        run: echo "{name}={hotfix/${{ steps.package-version.outputs.full_version}}/${{inputs.ng-version}}}" >> $GITHUB_OUTPUT
+        run: echo "name=hotfix/${{ steps.package-version.outputs.full_version}}/${{inputs.ng-version}}" >> "$GITHUB_OUTPUT"
       - name: create hotfix
         run: |
           git checkout -b ${{ steps.branch-name.outputs.name }}
