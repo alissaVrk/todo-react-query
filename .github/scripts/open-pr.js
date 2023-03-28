@@ -1,11 +1,18 @@
-module.exports = async ({ github, context, brancName }) => {
-  console.log("BBBB", brancName, context.repo, context.actor);
+module.exports = async ({ github, context, branchName, originBranchName }) => {
+  console.log(
+    "BBBB",
+    branchName,
+    originBranchName,
+    context.repo,
+    context.actor
+  );
+  console.log("CCCC", github.actor);
 
   const params = {
     owner: context.repo.owner,
     repo: context.repo.repo,
-    base: "main",
-    head: `${context.actor}:${brancName}`,
+    base: originBranchName,
+    head: `${context.actor}:${branchName}`,
   };
 
   const res = await github.rest.pulls.list(params);
@@ -15,8 +22,8 @@ module.exports = async ({ github, context, brancName }) => {
   if (existing.length === 0) {
     await github.rest.pulls.create({
       ...params,
-      title: brancName,
-      body: 'DO NOT SQUASH THIS BRANCH. merge to dev branch.',
+      title: branchName,
+      body: "DO NOT SQUASH THIS BRANCH. merge to dev branch.",
     });
   }
 };
