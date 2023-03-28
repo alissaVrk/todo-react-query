@@ -11,6 +11,7 @@ module.exports = async (github, core) => {
   });
 
   const releaseBranchNames = releaseBranches.map((branch) => branch.name);
+  releaseBranchNames.push("main");
 
   console.log("Release branches: ", releaseBranchNames);
   core.setOutput("release_branches", releaseBranchNames);
