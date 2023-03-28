@@ -1,5 +1,5 @@
 module.exports = async (github, core) => {
-  const allBranches = await github.repos.listBranches({
+  const allBranches = await github.rest.repos.listBranches({
     owner: context.repo.owner,
     repo: context.repo.repo,
     protected: true,
