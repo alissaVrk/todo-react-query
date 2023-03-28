@@ -1,7 +1,7 @@
 {
   "name": "alissa-todo-react-query",
   "license": "MIT",
-  "version": "0.58.3",
+  "version": "0.59.1",
   "private": false,
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",

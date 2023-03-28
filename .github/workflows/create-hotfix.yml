@@ -1,4 +1,5 @@
 name: create hotfix
+run-name: create hotfix with ng number ${{inputs.ng-version}}
 
 on:
   workflow_dispatch:
@@ -39,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: react
     steps:
-      - checkout ng master
+      - name: checkout
         uses: actions/checkout@v3
         with:
           repository: "alissaVrk/ng-with-react"
