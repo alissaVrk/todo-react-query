@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: react
     steps:
-      - name: checkout master
+      - name: checkout react for actions
         uses: actions/checkout@v3
       - name: update react version in ng release feature branch
         uses: ./.github/actions/update-ng-branch
